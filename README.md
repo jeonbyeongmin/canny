@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## 대유쾌 뉴스레터
 
-## Getting Started
+### 대유쾌 뉴스레터
 
-First, run the development server:
+사용자가 입력한 데이터를 바탕으로 오늘 날짜 기준 최신 포스트를 몇 개를 요약해서 뉴스레터를 보낸다.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- 사용자 커스텀
+  - 뉴스레터 말투, 성향, 뉴스레터 주제
+  - 반드시 검토할 사이트 추가하기
+  - 사용자 GPT 통합해야 사용가능
+  - 사용자 GPT 통합해야 사용가능
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 주요 기능 (MVP)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **뉴스레터 생성**
 
-## Learn More
+   - 사용자가 선택한 주제(기술, 디자인, 영화, 문화 등)와 말투/성향에 맞춰 최신 포스트 요약 제공
+   - 오늘 날짜 기준으로 자동 수집 및 요약
 
-To learn more about Next.js, take a look at the following resources:
+2. **사용자 커스텀**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   - 뉴스레터 말투(예: 유쾌, 진지, 친근 등)와 성향(예: 긍정, 냉소 등) 선택
+   - 관심 주제 및 반드시 검토할 사이트 직접 추가 가능
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. **GPT 통합**
 
-## Deploy on Vercel
+   - 요약 및 말투 변환에 GPT 활용
+   - 사용자별 맞춤형 뉴스레터 생성
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. **간단한 UI**
+   - 뉴스레터 미리보기 및 구독/설정 페이지 제공
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+### 향후 확장 아이디어
+
+- 뉴스레터 예약 발송 및 이메일 연동
+- 다양한 말투/성향 프리셋 추가
+- 커뮤니티 기반 추천 사이트/주제 공유
