@@ -1,11 +1,11 @@
 "use client";
 
 import React from "react";
-import SidebarMenuItem from "./SidebarMenuItem";
-import NewspaperIcon from "./icons/NewspaperIcon";
-import LinkIcon from "./icons/LinkIcon";
-import RobotIcon from "./icons/RobotIcon";
-import GearIcon from "./icons/GearIcon";
+import SidebarMenuItem from "./sidebar-menu-item";
+import NewspaperIcon from "./icons/newspaper-icon";
+import LinkIcon from "./icons/link-icon";
+import RobotIcon from "./icons/robot-icon";
+import GearIcon from "./icons/gear-icon";
 import { useSearchParams } from "next/navigation";
 
 const SettingsSidebar = () => {
