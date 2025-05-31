@@ -1,182 +1,242 @@
-import {
-  Column,
-  Container,
-  Heading,
-  Hr,
-  Link,
-  Preview,
-  Row,
-  Section,
-  Text,
-} from "@react-email/components";
+import { Container, Heading, Hr, Link, Preview, Section, Text } from "@react-email/components";
 
 import * as React from "react";
 
 interface TransactionalTemplateProps {
-  previewText: string;
+  previewText?: string;
   title: string;
   name: string;
   introText: string;
   items: Array<{ name: string; quantity: number; price: string }>;
   totalAmount: string;
-  supportUrl: string;
-  companyName: string;
+  supportUrl?: string;
+  companyName?: string;
   orderId?: string;
 }
 
 export default function TransactionalTemplate({
-  previewText,
+  previewText = "주문 확인 및 영수증",
   title,
   name,
   introText,
   items,
   totalAmount,
-  supportUrl,
-  companyName,
+  supportUrl = "#",
+  companyName = "Great Pleasure Store",
   orderId,
 }: TransactionalTemplateProps) {
+  const content = (
+    <>
+      <Text style={greetingText}>안녕하세요, {name}님!</Text>
+      <Text style={introTextStyle}>{introText}</Text>
+
+      {orderId && (
+        <Section style={orderSection}>
+          <Text style={orderIdText}>
+            주문 번호: <strong>{orderId}</strong>
+          </Text>
+        </Section>
+      )}
+
+      <Section style={itemsSection}>
+        <Heading style={itemsTitle}>주문 내역</Heading>
+        <div style={tableContainer}>
+          <div style={tableHeader}>
+            <div style={headerCell}>상품명</div>
+            <div style={headerCell}>수량</div>
+            <div style={headerCell}>가격</div>
+          </div>
+          {items.map((item, index) => (
+            <div key={index} style={tableRow}>
+              <div style={tableCell}>{item.name}</div>
+              <div style={tableCell}>{item.quantity}개</div>
+              <div style={tableCell}>{item.price}</div>
+            </div>
+          ))}
+          <div style={totalRow}>
+            <div style={totalCell}>총 금액</div>
+            <div style={totalAmountCell}>{totalAmount}</div>
+          </div>
+        </div>
+      </Section>
+
+      {supportUrl !== "#" && (
+        <Section style={supportSection}>
+          <Text style={supportText}>
+            문의사항이 있으시면{" "}
+            <Link href={supportUrl} style={supportLink}>
+              고객지원센터
+            </Link>
+            로 연락해주세요.
+          </Text>
+        </Section>
+      )}
+    </>
+  );
+
   return (
     <>
       <Preview>{previewText}</Preview>
       <Container style={container}>
-        <Heading style={heading}>{title}</Heading>
-        <Text style={paragraph}>안녕하세요, {name}님.</Text>
-        <Text style={paragraph}>{introText}</Text>
-
-        {orderId && <Text style={paragraph}>주문 번호: {orderId}</Text>}
-
-        <Section style={tableContainer}>
-          <Row style={tableHeader}>
-            <Column style={tableCellHeader}>항목</Column>
-            <Column style={tableCellHeader}>수량</Column>
-            <Column style={tableCellHeaderAmount}>가격</Column>
-          </Row>
-          {items.map((item, index) => (
-            <Row key={index} style={index % 2 === 0 ? tableRowEven : tableRowOdd}>
-              <Column style={tableCell}>{item.name}</Column>
-              <Column style={tableCell}>{item.quantity}</Column>
-              <Column style={tableCellAmount}>{item.price}</Column>
-            </Row>
-          ))}
-          <Hr style={hrLight} />
-          <Row>
-            <Column style={tableCellTotalLabel} colSpan={2}>
-              총계
-            </Column>
-            <Column style={tableCellTotalAmount}>{totalAmount}</Column>
-          </Row>
+        <Section style={mainSection}>
+          <Heading style={heading}>📋 {title}</Heading>
+          <Hr style={hr} />
+          <Section style={contentSection}>{content}</Section>
+          <Hr style={hr} />
+          <Text style={footer}>이 메일은 {companyName}에서 발송되었습니다.</Text>
         </Section>
-
-        <Text style={paragraph}>
-          궁금한 점이 있으시면 언제든지{" "}
-          <Link href={supportUrl} style={link}>
-            고객 지원팀
-          </Link>
-          에 문의해주세요.
-        </Text>
-        <Hr style={hr} />
-        <Text style={footer}>{companyName}에서 발송된 메일입니다.</Text>
       </Container>
     </>
   );
 }
 
 const container = {
-  backgroundColor: "#ffffff",
-  border: "1px solid #e5e7eb",
-  borderRadius: "0.5rem",
-  margin: "40px auto",
-  padding: "20px",
-  width: "100%",
-  maxWidth: "600px",
+  margin: "0 auto",
+  padding: "20px 0 48px",
+  width: "580px",
+  fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+};
+
+const mainSection = {
+  padding: "30px",
+  backgroundColor: "#f0f8ff",
+  border: "1px solid #4a90e2",
+  borderRadius: "8px",
 };
 
 const heading = {
-  color: "#1f2937",
   fontSize: "28px",
-  fontWeight: "600",
+  lineHeight: "1.3",
+  fontWeight: "700",
+  color: "#1e3a8a",
+  marginBottom: "24px",
   textAlign: "center" as const,
-  marginBottom: "30px",
-};
-
-const paragraph = {
-  color: "#374151",
-  fontSize: "16px",
-  lineHeight: "1.6",
-  margin: "0 0 20px",
-};
-
-const tableContainer = {
-  border: "1px solid #e5e7eb",
-  borderRadius: "0.375rem",
-  marginBottom: "20px",
-  padding: "10px",
-};
-
-const tableHeader = {
-  backgroundColor: "#f3f4f6",
-  fontWeight: "bold",
-};
-
-const tableCellHeader = {
-  padding: "10px",
-  fontSize: "14px",
-  color: "#1f2937",
-};
-const tableCellHeaderAmount = {
-  ...tableCellHeader,
-  textAlign: "right" as const,
-};
-
-const tableRowOdd = {
-  backgroundColor: "#ffffff",
-};
-const tableRowEven = {
-  backgroundColor: "#f9fafb",
-};
-
-const tableCell = {
-  padding: "10px",
-  fontSize: "14px",
-  color: "#374151",
-};
-
-const tableCellAmount = {
-  ...tableCell,
-  textAlign: "right" as const,
-};
-
-const tableCellTotalLabel = {
-  ...tableCell,
-  fontWeight: "bold",
-  textAlign: "right" as const,
-  paddingRight: "10px",
-};
-
-const tableCellTotalAmount = {
-  ...tableCellAmount,
-  fontWeight: "bold",
-  color: "#1f2937",
 };
 
 const hr = {
-  borderColor: "#e5e7eb",
-  margin: "30px 0",
+  borderColor: "#93c5fd",
+  margin: "20px 0",
 };
 
-const hrLight = {
-  borderColor: "#e5e7eb",
-  margin: "10px 0",
+const contentSection = {
+  marginTop: "24px",
 };
 
-const link = {
-  color: "#0c7ff2",
+const greetingText = {
+  color: "#1e40af",
+  fontSize: "16px",
+  lineHeight: "24px",
+  marginBottom: "16px",
+};
+
+const introTextStyle = {
+  color: "#1e40af",
+  fontSize: "16px",
+  lineHeight: "24px",
+  marginBottom: "24px",
+};
+
+const orderSection = {
+  backgroundColor: "#dbeafe",
+  padding: "16px",
+  borderRadius: "6px",
+  marginBottom: "24px",
+};
+
+const orderIdText = {
+  color: "#1e40af",
+  fontSize: "16px",
+  textAlign: "center" as const,
+};
+
+const itemsSection = {
+  marginBottom: "24px",
+};
+
+const itemsTitle = {
+  fontSize: "20px",
+  fontWeight: "600",
+  color: "#1e40af",
+  marginBottom: "16px",
+  textAlign: "left" as const,
+};
+
+const tableContainer = {
+  border: "1px solid #93c5fd",
+  borderRadius: "6px",
+  overflow: "hidden",
+};
+
+const tableHeader = {
+  backgroundColor: "#3b82f6",
+  display: "flex",
+  color: "#ffffff",
+};
+
+const headerCell = {
+  flex: 1,
+  padding: "12px",
+  fontSize: "14px",
+  fontWeight: "600",
+  borderRight: "1px solid #60a5fa",
+};
+
+const tableRow = {
+  display: "flex",
+  borderBottom: "1px solid #e5e7eb",
+  backgroundColor: "#ffffff",
+};
+
+const tableCell = {
+  flex: 1,
+  padding: "12px",
+  fontSize: "14px",
+  color: "#374151",
+  borderRight: "1px solid #e5e7eb",
+};
+
+const totalRow = {
+  display: "flex",
+  backgroundColor: "#dbeafe",
+  fontWeight: "600",
+};
+
+const totalCell = {
+  flex: 2,
+  padding: "12px",
+  fontSize: "16px",
+  color: "#1e40af",
+  borderRight: "1px solid #93c5fd",
+};
+
+const totalAmountCell = {
+  flex: 1,
+  padding: "12px",
+  fontSize: "16px",
+  color: "#1e40af",
+  fontWeight: "700",
+};
+
+const supportSection = {
+  marginTop: "24px",
+  textAlign: "center" as const,
+};
+
+const supportText = {
+  color: "#4b5563",
+  fontSize: "14px",
+  lineHeight: "20px",
+};
+
+const supportLink = {
+  color: "#3b82f6",
   textDecoration: "underline",
 };
 
 const footer = {
   color: "#6b7280",
-  fontSize: "12px",
+  fontSize: "14px",
+  lineHeight: "20px",
   textAlign: "center" as const,
-  marginTop: "30px",
+  marginTop: "20px",
 };

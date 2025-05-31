@@ -63,7 +63,7 @@ const getDummyProps = (templateName: string) => {
             {
               style: {
                 marginBottom: "16px",
-                color: "#484848",
+                color: "#6b21a8",
                 fontSize: "16px",
                 lineHeight: "24px",
               },
@@ -74,7 +74,7 @@ const getDummyProps = (templateName: string) => {
             "h3",
             {
               style: {
-                color: "#333",
+                color: "#581c87",
                 marginTop: "24px",
                 marginBottom: "12px",
                 fontSize: "20px",
@@ -88,7 +88,7 @@ const getDummyProps = (templateName: string) => {
             {
               style: {
                 marginBottom: "16px",
-                color: "#484848",
+                color: "#6b21a8",
                 fontSize: "16px",
                 lineHeight: "24px",
               },
@@ -99,7 +99,7 @@ const getDummyProps = (templateName: string) => {
             "h3",
             {
               style: {
-                color: "#333",
+                color: "#581c87",
                 marginTop: "24px",
                 marginBottom: "12px",
                 fontSize: "20px",
@@ -113,7 +113,7 @@ const getDummyProps = (templateName: string) => {
             {
               style: {
                 marginBottom: "16px",
-                color: "#484848",
+                color: "#6b21a8",
                 fontSize: "16px",
                 lineHeight: "24px",
               },

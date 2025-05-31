@@ -1,13 +1,10 @@
 import {
   Button,
-  Column,
   Container,
   Heading,
   Hr,
   Img,
-  Link,
   Preview,
-  Row,
   Section,
   Text,
 } from "@react-email/components";
@@ -15,7 +12,7 @@ import {
 import * as React from "react";
 
 interface PromotionalTemplateProps {
-  previewText: string;
+  previewText?: string;
   productName: string;
   productDescription: string;
   productImageUrl: string;
@@ -23,13 +20,13 @@ interface PromotionalTemplateProps {
   originalPrice?: string;
   discountPercentage?: string;
   callToActionUrl: string;
-  companyName: string;
+  companyName?: string;
   companyAddress?: string;
-  unsubscribeUrl: string;
+  unsubscribeUrl?: string;
 }
 
 export default function PromotionalTemplate({
-  previewText,
+  previewText = "특별 할인 프로모션!",
   productName,
   productDescription,
   productImageUrl,
@@ -37,62 +34,63 @@ export default function PromotionalTemplate({
   originalPrice,
   discountPercentage,
   callToActionUrl,
-  companyName,
+  companyName = "Great Pleasure Inc.",
   companyAddress,
-  unsubscribeUrl,
+  unsubscribeUrl = "#",
 }: PromotionalTemplateProps) {
+  const content = (
+    <>
+      <Section style={heroSection}>
+        <Img src={productImageUrl} alt={productName} style={productImage} />
+      </Section>
+
+      <Section style={productSection}>
+        <Heading style={productTitle}>{productName}</Heading>
+        <Text style={productDesc}>{productDescription}</Text>
+
+        <Section style={priceSection}>
+          {originalPrice && discountPercentage && (
+            <Text style={originalPriceText}>
+              원가: <span style={strikethrough}>{originalPrice}</span> ({discountPercentage} 할인!)
+            </Text>
+          )}
+          <Text style={salePriceText}>특가: {salePrice}</Text>
+        </Section>
+
+        <Section style={buttonSection}>
+          <Button href={callToActionUrl} style={ctaButton}>
+            지금 구매하기
+          </Button>
+        </Section>
+      </Section>
+    </>
+  );
+
   return (
     <>
       <Preview>{previewText}</Preview>
       <Container style={container}>
-        <Section style={header}>
-          <Img
-            src="https://via.placeholder.com/150x50?text=Your+Logo"
-            width="150"
-            height="50"
-            alt="Company Logo"
-            style={logo}
-          />
-        </Section>
-
-        <Heading style={heading}>특별 할인! {productName}</Heading>
-
-        <Section style={productSection}>
-          <Row>
-            <Column>
-              <Img src={productImageUrl} alt={productName} style={productImage} width="100%" />
-            </Column>
-          </Row>
-          <Row>
-            <Column>
-              <Text style={paragraph}>{productDescription}</Text>
-              <Text style={priceSection}>
-                <span style={salePriceStyle}>{salePrice}</span>
-                {originalPrice && <span style={originalPriceStyle}>{originalPrice}</span>}
-                {discountPercentage && <span style={discountBadge}>{discountPercentage} 할인</span>}
-              </Text>
-              <Button href={callToActionUrl} style={button}>
-                지금 구매하기
-              </Button>
-            </Column>
-          </Row>
-        </Section>
-
-        <Hr style={hr} />
-
-        <Section style={footer}>
-          <Text style={footerText}>
-            {companyName}에서 보내는 프로모션 메일입니다.
+        <Section style={mainSection}>
+          <Heading style={heading}>🛍️ 특별 프로모션</Heading>
+          <Hr style={hr} />
+          <Section style={contentSection}>{content}</Section>
+          <Hr style={hr} />
+          <Text style={footer}>
+            이 메일은 {companyName}에서 발송되었습니다.
             {companyAddress && (
-              <>
+              <span>
                 <br />
                 {companyAddress}
-              </>
+              </span>
             )}
           </Text>
-          <Link href={unsubscribeUrl} style={footerLink}>
-            수신 거부
-          </Link>
+          {unsubscribeUrl !== "#" && (
+            <Text style={unsubscribeText}>
+              <a href={unsubscribeUrl} style={unsubscribeLink}>
+                구독 취소
+              </a>
+            </Text>
+          )}
         </Section>
       </Container>
     </>
@@ -100,113 +98,126 @@ export default function PromotionalTemplate({
 }
 
 const container = {
-  width: "100%",
-  maxWidth: "600px",
   margin: "0 auto",
-  backgroundColor: "#ffffff",
-  borderRadius: "8px",
-  overflow: "hidden",
+  padding: "20px 0 48px",
+  width: "580px",
+  fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
 };
 
-const header = {
-  backgroundColor: "#0c7ff2",
-  padding: "20px",
-  textAlign: "center" as const,
-};
-
-const logo = {
-  margin: "0 auto",
+const mainSection = {
+  padding: "30px",
+  backgroundColor: "#fff8e1",
+  border: "2px solid #ffc107",
+  borderRadius: "12px",
 };
 
 const heading = {
-  fontSize: "28px",
-  fontWeight: "bold",
-  color: "#333333",
+  fontSize: "32px",
+  lineHeight: "1.3",
+  fontWeight: "700",
+  color: "#e65100",
+  marginBottom: "24px",
   textAlign: "center" as const,
-  padding: "30px 20px 10px",
-};
-
-const productSection = {
-  padding: "0 20px 20px",
-};
-
-const productImage = {
-  borderRadius: "8px",
-  marginBottom: "20px",
-  maxWidth: "100%",
-  height: "auto",
-};
-
-const paragraph = {
-  fontSize: "16px",
-  lineHeight: "1.6",
-  color: "#555555",
-  marginBottom: "20px",
-};
-
-const priceSection = {
-  textAlign: "center" as const,
-  margin: "20px 0",
-};
-
-const salePriceStyle = {
-  fontSize: "24px",
-  fontWeight: "bold",
-  color: "#e53e3e",
-  marginRight: "10px",
-};
-
-const originalPriceStyle = {
-  fontSize: "18px",
-  color: "#718096",
-  textDecoration: "line-through",
-  marginRight: "10px",
-};
-
-const discountBadge = {
-  backgroundColor: "#38a169",
-  color: "#ffffff",
-  padding: "4px 8px",
-  borderRadius: "4px",
-  fontSize: "14px",
-  fontWeight: "bold",
-};
-
-const button = {
-  backgroundColor: "#0c7ff2",
-  color: "#ffffff",
-  padding: "12px 24px",
-  fontSize: "16px",
-  fontWeight: "bold",
-  textDecoration: "none",
-  borderRadius: "5px",
-  display: "block",
-  textAlign: "center" as const,
-  margin: "0 auto",
-  width: "fit-content",
 };
 
 const hr = {
-  borderColor: "#dddddd",
-  marginTop: "30px",
-  marginBottom: "30px",
+  borderColor: "#ffcc02",
+  margin: "24px 0",
+  borderWidth: "2px",
+};
+
+const contentSection = {
+  marginTop: "24px",
+};
+
+const heroSection = {
+  textAlign: "center" as const,
+  marginBottom: "24px",
+};
+
+const productImage = {
+  width: "100%",
+  maxWidth: "400px",
+  height: "auto",
+  borderRadius: "8px",
+  border: "1px solid #e0e0e0",
+};
+
+const productSection = {
+  textAlign: "center" as const,
+};
+
+const productTitle = {
+  fontSize: "24px",
+  fontWeight: "600",
+  color: "#d84315",
+  marginBottom: "16px",
+  textAlign: "center" as const,
+};
+
+const productDesc = {
+  color: "#5d4037",
+  fontSize: "16px",
+  lineHeight: "24px",
+  marginBottom: "24px",
+  textAlign: "center" as const,
+};
+
+const priceSection = {
+  marginBottom: "32px",
+};
+
+const originalPriceText = {
+  color: "#757575",
+  fontSize: "14px",
+  marginBottom: "8px",
+  textAlign: "center" as const,
+};
+
+const strikethrough = {
+  textDecoration: "line-through",
+};
+
+const salePriceText = {
+  color: "#e65100",
+  fontSize: "24px",
+  fontWeight: "700",
+  textAlign: "center" as const,
+};
+
+const buttonSection = {
+  textAlign: "center" as const,
+  margin: "32px 0",
+};
+
+const ctaButton = {
+  backgroundColor: "#ff5722",
+  borderRadius: "6px",
+  color: "#ffffff",
+  fontSize: "18px",
+  fontWeight: "700",
+  textDecoration: "none",
+  textAlign: "center" as const,
+  display: "inline-block",
+  padding: "16px 32px",
+  boxShadow: "0 4px 8px rgba(255, 87, 34, 0.3)",
 };
 
 const footer = {
-  padding: "20px",
+  color: "#8d6e63",
+  fontSize: "14px",
+  lineHeight: "20px",
   textAlign: "center" as const,
-  backgroundColor: "#f7f7f7",
+  marginTop: "20px",
 };
 
-const footerText = {
-  fontSize: "12px",
-  color: "#888888",
-  lineHeight: "1.5",
-  marginBottom: "10px",
+const unsubscribeText = {
+  textAlign: "center" as const,
+  marginTop: "16px",
 };
 
-const footerLink = {
+const unsubscribeLink = {
+  color: "#8d6e63",
   fontSize: "12px",
-  color: "#0c7ff2",
   textDecoration: "underline",
 };

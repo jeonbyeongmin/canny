@@ -28,29 +28,36 @@ export default function NewsletterTemplate({
           fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
         }}
       >
-        <Section style={{ padding: "20px", backgroundColor: "#ffffff" }}>
+        <Section
+          style={{
+            padding: "30px",
+            backgroundColor: "#f4f3ff",
+            border: "1px solid #8b5cf6",
+            borderRadius: "10px",
+          }}
+        >
           <Heading
             style={{
-              fontSize: "32px",
+              fontSize: "30px",
               lineHeight: "1.3",
               fontWeight: "700",
-              color: "#484848",
+              color: "#6b21a8",
               marginBottom: "24px",
               textAlign: "center",
             }}
           >
-            {title}
+            📰 {title}
           </Heading>
 
-          <Hr style={{ borderColor: "#e6ebf1", margin: "20px 0" }} />
+          <Hr style={{ borderColor: "#c4b5fd", margin: "20px 0" }} />
 
           <Section style={{ marginTop: "24px" }}>{content}</Section>
 
-          <Hr style={{ borderColor: "#e6ebf1", margin: "40px 0 20px 0" }} />
+          <Hr style={{ borderColor: "#c4b5fd", margin: "40px 0 20px 0" }} />
 
           <Text
             style={{
-              color: "#9ca299",
+              color: "#7c3aed",
               fontSize: "14px",
               lineHeight: "20px",
               textAlign: "center",
@@ -64,7 +71,7 @@ export default function NewsletterTemplate({
             <Link
               href={unsubscribeUrl}
               style={{
-                color: "#9ca299",
+                color: "#7c3aed",
                 fontSize: "14px",
                 textDecoration: "underline",
               }}
