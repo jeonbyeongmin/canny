@@ -62,6 +62,16 @@ TypeScript Rules
 
 ---
 
+Library Usage
+
+react-email
+
+- Import components from @react-email/component.
+- Import render, pretty from @react-email/render.
+- Do not use `Html`, `Head`, `Body` components.
+
+---
+
 File & Folder Conventions
 
 - File names: kebab-case (example: my-component.tsx).

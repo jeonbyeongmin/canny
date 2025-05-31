@@ -2,7 +2,7 @@ import React from "react";
 
 export default function NewsletterSection() {
   return (
-    <div className="flex flex-1 justify-center py-5">
+    <div className="flex flex-col  py-5">
       <div className="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 flex-1">
         <div className="flex flex-wrap justify-between gap-3 p-4">
           <p className="text-[#111418] tracking-light text-[32px] font-bold leading-tight min-w-72">
