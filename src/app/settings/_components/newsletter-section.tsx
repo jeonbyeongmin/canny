@@ -34,27 +34,15 @@ export default function NewsletterSection() {
         <div className="flex flex-wrap gap-3 p-4">
           <label className="text-sm font-medium leading-normal flex items-center justify-center rounded-xl border border-[#dbe0e6] px-4 h-11 text-[#111418] has-[:checked]:border-[3px] has-[:checked]:px-3.5 has-[:checked]:border-[#0c7ff2] relative cursor-pointer">
             Informative
-            <input
-              type="radio"
-              className="invisible absolute"
-              name="personality"
-            />
+            <input type="radio" className="invisible absolute" name="personality" />
           </label>
           <label className="text-sm font-medium leading-normal flex items-center justify-center rounded-xl border border-[#dbe0e6] px-4 h-11 text-[#111418] has-[:checked]:border-[3px] has-[:checked]:px-3.5 has-[:checked]:border-[#0c7ff2] relative cursor-pointer">
             Humorous
-            <input
-              type="radio"
-              className="invisible absolute"
-              name="personality"
-            />
+            <input type="radio" className="invisible absolute" name="personality" />
           </label>
           <label className="text-sm font-medium leading-normal flex items-center justify-center rounded-xl border border-[#dbe0e6] px-4 h-11 text-[#111418] has-[:checked]:border-[3px] has-[:checked]:px-3.5 has-[:checked]:border-[#0c7ff2] relative cursor-pointer">
             Thoughtful
-            <input
-              type="radio"
-              className="invisible absolute"
-              name="personality"
-            />
+            <input type="radio" className="invisible absolute" name="personality" />
           </label>
         </div>
 
