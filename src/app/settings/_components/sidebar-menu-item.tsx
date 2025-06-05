@@ -18,7 +18,7 @@ const SidebarMenuItem: React.FC<SidebarMenuItemProps & { href: string }> = ({
   return (
     <Link
       href={href}
-      className={`flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer no-underline transition-all duration-200 group ${
+      className={`flex items-center gap-3 px-3 py-2.5 rounded cursor-pointer no-underline transition-all duration-200 group ${
         isActive
           ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg"
           : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"

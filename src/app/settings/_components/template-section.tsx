@@ -178,11 +178,11 @@ export default function TemplateSection() {
         {templates.map((template) => (
           <div
             key={template.name}
-            className="bg-card rounded-lg border border-border p-4 hover:bg-accent transition-all duration-200 cursor-pointer group"
+            className="bg-card rounded border border-border p-4 hover:bg-accent transition-all duration-200 cursor-pointer group"
             onClick={() => handlePreview(template.name, template.component)}
           >
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
                 <span className="text-primary-foreground text-sm">
                   {getTemplateIcon(template.name)}
                 </span>
@@ -205,7 +205,7 @@ export default function TemplateSection() {
                     e.stopPropagation();
                     handlePreview(template.name, template.component);
                   }}
-                  className="font-semibold py-1.5 px-4 rounded-md transition-all duration-200 text-xs"
+                  className="font-semibold py-1.5 px-4 rounded-sm transition-all duration-200 text-xs"
                 >
                   미리보기
                 </Button>
@@ -217,9 +217,9 @@ export default function TemplateSection() {
 
       {/* 미리보기 섹션 */}
       {selectedTemplate && previewHtml && (
-        <div className="bg-card rounded-lg border border-border p-6">
+        <div className="bg-card rounded border border-border p-6">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+            <div className="w-6 h-6 bg-primary rounded flex items-center justify-center">
               <span className="text-primary-foreground text-xs">
                 {getTemplateIcon(selectedTemplate)}
               </span>
@@ -229,7 +229,7 @@ export default function TemplateSection() {
             </h3>
           </div>
 
-          <div className="bg-muted rounded-md p-3 border border-border">
+          <div className="bg-muted rounded-sm p-3 border border-border">
             <div className="w-full h-[500px] bg-card rounded-sm overflow-hidden border border-border">
               <iframe
                 srcDoc={previewHtml}
@@ -246,7 +246,7 @@ export default function TemplateSection() {
                 setPreviewHtml("");
               }}
               variant="outline"
-              className="font-semibold py-2 px-4 rounded-md transition-colors text-xs"
+              className="font-semibold py-2 px-4 rounded-sm transition-colors text-xs"
             >
               미리보기 닫기
             </Button>
@@ -255,7 +255,7 @@ export default function TemplateSection() {
       )}
 
       {/* 도움말 섹션 */}
-      <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
+      <div className="bg-primary/5 border border-primary/20 rounded p-4">
         <h3 className="text-primary text-sm font-semibold mb-2 flex items-center gap-2">
           💡 템플릿 사용 가이드
         </h3>

@@ -3,11 +3,9 @@
 import React, { useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Switch } from "@/components/ui/switch";
-import { Slider } from "@/components/ui/slider";
 import {
   Select,
   SelectContent,
@@ -15,6 +13,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
 
 export default function GeneralSection() {
   // 계정 설정
@@ -109,9 +109,9 @@ export default function GeneralSection() {
       </div>
 
       {/* 계정 정보 */}
-      <div className="bg-card rounded-lg border border-border p-6">
+      <div className="bg-card rounded border border-border p-6">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+          <div className="w-6 h-6 bg-primary rounded flex items-center justify-center">
             <span className="text-primary-foreground text-xs">👤</span>
           </div>
           <h2 className="text-base font-semibold text-foreground">계정 정보</h2>
@@ -171,9 +171,9 @@ export default function GeneralSection() {
       </div>
 
       {/* 알림 설정 */}
-      <div className="bg-card rounded-lg border border-border p-6">
+      <div className="bg-card rounded border border-border p-6">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+          <div className="w-6 h-6 bg-primary rounded flex items-center justify-center">
             <span className="text-primary-foreground text-xs">🔔</span>
           </div>
           <h2 className="text-base font-semibold text-foreground">알림 설정</h2>
@@ -201,7 +201,7 @@ export default function GeneralSection() {
           ].map((item) => (
             <div
               key={item.key}
-              className="flex items-center justify-between p-3 rounded-md border border-border"
+              className="flex items-center justify-between p-3 rounded-sm border border-border"
             >
               <div className="flex-1">
                 <div className="text-sm font-medium text-foreground">{item.label}</div>
@@ -219,9 +219,9 @@ export default function GeneralSection() {
       </div>
 
       {/* 언어 및 지역 설정 */}
-      <div className="bg-card rounded-lg border border-border p-6">
+      <div className="bg-card rounded border border-border p-6">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+          <div className="w-6 h-6 bg-primary rounded flex items-center justify-center">
             <span className="text-primary-foreground text-xs">🌍</span>
           </div>
           <h2 className="text-base font-semibold text-foreground">언어 및 지역</h2>
@@ -293,9 +293,9 @@ export default function GeneralSection() {
       </div>
 
       {/* 뉴스레터 기본 설정 */}
-      <div className="bg-card rounded-lg border border-border p-6">
+      <div className="bg-card rounded border border-border p-6">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+          <div className="w-6 h-6 bg-primary rounded flex items-center justify-center">
             <span className="text-primary-foreground text-xs">📧</span>
           </div>
           <h2 className="text-base font-semibold text-foreground">뉴스레터 기본 설정</h2>
@@ -370,7 +370,9 @@ export default function GeneralSection() {
                   setNewsletterSettings({ ...newsletterSettings, includeSummary: !!checked })
                 }
               />
-              <Label htmlFor="includeSummary" className="text-xs font-medium cursor-pointer">AI 요약 포함</Label>
+              <Label htmlFor="includeSummary" className="text-xs font-medium cursor-pointer">
+                AI 요약 포함
+              </Label>
             </div>
           </div>
         </div>
@@ -381,20 +383,20 @@ export default function GeneralSection() {
         <Button
           onClick={handleReset}
           variant="outline"
-          className="font-semibold py-2 px-4 rounded-md transition-colors text-xs"
+          className="font-semibold py-2 px-4 rounded-sm transition-colors text-xs"
         >
           설정 초기화
         </Button>
         <Button
           onClick={handleSave}
-          className="font-semibold py-2 px-6 rounded-md transition-all duration-200 text-xs"
+          className="font-semibold py-2 px-6 rounded-sm transition-all duration-200 text-xs"
         >
           변경사항 저장
         </Button>
       </div>
 
       {/* 도움말 */}
-      <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
+      <div className="bg-primary/5 border border-primary/20 rounded p-4">
         <h3 className="text-primary text-sm font-semibold mb-2 flex items-center gap-2">
           💡 설정 도움말
         </h3>

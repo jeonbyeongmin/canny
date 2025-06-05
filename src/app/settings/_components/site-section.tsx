@@ -130,7 +130,7 @@ export default function SiteSection() {
           </div>
           <Button
             onClick={() => setIsAddingNewSite(!isAddingNewSite)}
-            className="font-semibold py-2 px-4 rounded-md transition-all duration-200 flex items-center gap-2 text-xs"
+            className="font-semibold py-2 px-4 rounded-sm transition-all duration-200 flex items-center gap-2 text-xs"
           >
             <span>+</span>새 사이트 추가
           </Button>
@@ -139,9 +139,9 @@ export default function SiteSection() {
 
       {/* 새 사이트 추가 폼 */}
       {isAddingNewSite && (
-        <div className="bg-card rounded-lg border border-border p-6">
+        <div className="bg-card rounded border border-border p-6">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+            <div className="w-6 h-6 bg-primary rounded flex items-center justify-center">
               <span className="text-primary-foreground text-xs">➕</span>
             </div>
             <h2 className="text-base font-semibold text-foreground">새 뉴스 소스 추가</h2>
@@ -201,14 +201,14 @@ export default function SiteSection() {
           <div className="flex gap-2 pt-3 border-t border-border">
             <Button
               onClick={handleAddSite}
-              className="font-semibold py-2 px-4 rounded-md transition-all duration-200 text-xs"
+              className="font-semibold py-2 px-4 rounded-sm transition-all duration-200 text-xs"
             >
               추가
             </Button>
             <Button
               onClick={() => setIsAddingNewSite(false)}
               variant="outline"
-              className="font-semibold py-2 px-4 rounded-md transition-colors text-xs"
+              className="font-semibold py-2 px-4 rounded-sm transition-colors text-xs"
             >
               취소
             </Button>
@@ -217,9 +217,9 @@ export default function SiteSection() {
       )}
 
       {/* 사이트 목록 */}
-      <div className="bg-card rounded-lg border border-border p-6">
+      <div className="bg-card rounded border border-border p-6">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+          <div className="w-6 h-6 bg-primary rounded flex items-center justify-center">
             <span className="text-primary-foreground text-xs">🌐</span>
           </div>
           <div className="flex-1">
@@ -229,8 +229,8 @@ export default function SiteSection() {
         </div>
 
         {sites.length === 0 ? (
-          <div className="text-center py-12 bg-muted rounded-md border-2 border-dashed border-muted-foreground/25">
-            <div className="w-12 h-12 bg-muted-foreground/20 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div className="text-center py-12 bg-muted rounded-sm border-2 border-dashed border-muted-foreground/25">
+            <div className="w-12 h-12 bg-muted-foreground/20 rounded flex items-center justify-center mx-auto mb-3">
               <span className="text-muted-foreground text-lg">📰</span>
             </div>
             <h3 className="text-sm font-semibold text-foreground mb-2">
@@ -241,7 +241,7 @@ export default function SiteSection() {
             </p>
             <Button
               onClick={() => setIsAddingNewSite(true)}
-              className="font-semibold py-2 px-3 rounded-md transition-all duration-200 text-xs"
+              className="font-semibold py-2 px-3 rounded-sm transition-all duration-200 text-xs"
             >
               첫 번째 사이트 추가하기
             </Button>
@@ -251,18 +251,18 @@ export default function SiteSection() {
             {sites.map((site) => (
               <div
                 key={site.id}
-                className="border border-border rounded-md p-4 hover:bg-accent transition-colors duration-200"
+                className="border border-border rounded-sm p-4 hover:bg-accent transition-colors duration-200"
               >
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
                       <h4 className="text-sm font-semibold text-foreground">{site.name}</h4>
-                      <span className="px-2 py-0.5 rounded-full bg-muted text-muted-foreground text-xs font-medium">
+                      <span className="px-2 py-0.5 rounded bg-muted text-muted-foreground text-xs font-medium">
                         {site.category}
                       </span>
                       <button
                         onClick={() => toggleSiteStatus(site.id)}
-                        className={`px-2 py-0.5 rounded-full text-xs font-medium transition-colors ${
+                        className={`px-2 py-0.5 rounded text-xs font-medium transition-colors ${
                           site.status === "활성"
                             ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 hover:bg-green-200 dark:hover:bg-green-900/50"
                             : "bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 hover:bg-orange-200 dark:hover:bg-orange-900/50"
@@ -291,11 +291,11 @@ export default function SiteSection() {
 
                     <div className="flex items-center gap-4 text-xs text-muted-foreground">
                       <div className="flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full"></span>
+                        <span className="w-1.5 h-1.5 bg-muted-foreground rounded"></span>
                         마지막 수집: {site.lastCrawled}
                       </div>
                       <div className="flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                        <span className="w-1.5 h-1.5 bg-primary rounded"></span>
                         수집된 기사: {site.articlesCount}개
                       </div>
                     </div>
@@ -306,7 +306,7 @@ export default function SiteSection() {
                       onClick={() => handleTestCrawl(site.id)}
                       variant="outline"
                       size="sm"
-                      className="px-3 py-1.5 rounded-md text-xs font-medium"
+                      className="px-3 py-1.5 rounded-sm text-xs font-medium"
                       title="연결 상태 테스트"
                     >
                       테스트
@@ -315,7 +315,7 @@ export default function SiteSection() {
                       onClick={() => handleDeleteSite(site.id)}
                       variant="destructive"
                       size="sm"
-                      className="px-3 py-1.5 rounded-md text-xs font-medium"
+                      className="px-3 py-1.5 rounded-sm text-xs font-medium"
                       title="사이트 삭제"
                     >
                       삭제
@@ -329,7 +329,7 @@ export default function SiteSection() {
       </div>
 
       {/* 도움말 */}
-      <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
+      <div className="bg-primary/5 border border-primary/20 rounded p-4">
         <h3 className="text-primary text-sm font-semibold mb-2 flex items-center gap-2">
           💡 사용 팁
         </h3>

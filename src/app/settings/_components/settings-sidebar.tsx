@@ -49,7 +49,7 @@ const SettingsSidebar = () => {
 
   return (
     <div className="w-64 flex-shrink-0">
-      <div className="bg-card/70 backdrop-blur-md rounded-2xl shadow-lg border border-border p-5 sticky top-20">
+      <div className="bg-card/70 backdrop-blur-md rounded shadow-lg border border-border p-5 sticky top-20">
         <div className="flex flex-col gap-5">
           <div className="border-b border-border pb-3">
             <h2 className="text-base font-semibold text-foreground mb-1">설정</h2>

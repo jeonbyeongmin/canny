@@ -5,7 +5,6 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
 import {
   Select,
   SelectContent,
@@ -13,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
 import { Textarea } from "@/components/ui/textarea";
 
 export default function GptSection() {
@@ -62,9 +62,9 @@ export default function GptSection() {
       </div>
 
       {/* API 키 설정 */}
-      <div className="bg-card rounded-lg border border-border p-6">
+      <div className="bg-card rounded border border-border p-6">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+          <div className="w-6 h-6 bg-primary rounded flex items-center justify-center">
             <span className="text-primary-foreground text-xs">🔑</span>
           </div>
           <h2 className="text-base font-semibold text-foreground">API 키 설정</h2>
@@ -98,7 +98,7 @@ export default function GptSection() {
             <Button
               onClick={handleTestConnection}
               variant="outline"
-              className="font-semibold py-2 px-4 rounded-md transition-colors text-xs"
+              className="font-semibold py-2 px-4 rounded-sm transition-colors text-xs"
             >
               연결 테스트
             </Button>
@@ -107,9 +107,9 @@ export default function GptSection() {
       </div>
 
       {/* 모델 설정 */}
-      <div className="bg-card rounded-lg border border-border p-6">
+      <div className="bg-card rounded border border-border p-6">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+          <div className="w-6 h-6 bg-primary rounded flex items-center justify-center">
             <span className="text-primary-foreground text-xs">🤖</span>
           </div>
           <h2 className="text-base font-semibold text-foreground">모델 설정</h2>
@@ -168,9 +168,9 @@ export default function GptSection() {
       </div>
 
       {/* 시스템 프롬프트 */}
-      <div className="bg-card rounded-lg border border-border p-6">
+      <div className="bg-card rounded border border-border p-6">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+          <div className="w-6 h-6 bg-primary rounded flex items-center justify-center">
             <span className="text-primary-foreground text-xs">📝</span>
           </div>
           <h2 className="text-base font-semibold text-foreground">시스템 프롬프트</h2>
@@ -194,24 +194,24 @@ export default function GptSection() {
       </div>
 
       {/* 사용 통계 */}
-      <div className="bg-card rounded-lg border border-border p-6">
+      <div className="bg-card rounded border border-border p-6">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+          <div className="w-6 h-6 bg-primary rounded flex items-center justify-center">
             <span className="text-primary-foreground text-xs">📊</span>
           </div>
           <h2 className="text-base font-semibold text-foreground">사용 통계</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-muted rounded-md p-3">
+          <div className="bg-muted rounded-sm p-3">
             <div className="text-lg font-bold text-foreground mb-1">1,247</div>
             <div className="text-xs text-muted-foreground">이번 달 토큰 사용</div>
           </div>
-          <div className="bg-muted rounded-md p-3">
+          <div className="bg-muted rounded-sm p-3">
             <div className="text-lg font-bold text-foreground mb-1">$12.47</div>
             <div className="text-xs text-muted-foreground">이번 달 비용</div>
           </div>
-          <div className="bg-muted rounded-md p-3">
+          <div className="bg-muted rounded-sm p-3">
             <div className="text-lg font-bold text-foreground mb-1">23</div>
             <div className="text-xs text-muted-foreground">생성된 뉴스레터</div>
           </div>
@@ -223,20 +223,20 @@ export default function GptSection() {
         <Button
           onClick={handleReset}
           variant="outline"
-          className="font-semibold py-2 px-4 rounded-md transition-colors text-xs"
+          className="font-semibold py-2 px-4 rounded-sm transition-colors text-xs"
         >
           설정 초기화
         </Button>
         <Button
           onClick={handleSave}
-          className="font-semibold py-2 px-6 rounded-md transition-all duration-200 text-xs"
+          className="font-semibold py-2 px-6 rounded-sm transition-all duration-200 text-xs"
         >
           변경사항 저장
         </Button>
       </div>
 
       {/* 도움말 */}
-      <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
+      <div className="bg-primary/5 border border-primary/20 rounded p-4">
         <h3 className="text-primary text-sm font-semibold mb-2 flex items-center gap-2">
           💡 사용 팁
         </h3>

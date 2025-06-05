@@ -186,7 +186,7 @@ export default function NewsletterSection() {
       <div className="space-y-4">
         <div>
           <h2 className="text-base font-semibold text-foreground mb-3 flex items-center gap-2">
-            <span className="w-5 h-5 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-xs">
+            <span className="w-5 h-5 bg-primary rounded flex items-center justify-center text-primary-foreground text-xs">
               ✉
             </span>
             템플릿 선택
@@ -200,7 +200,7 @@ export default function NewsletterSection() {
           {templates.map((template) => (
             <div
               key={template.name}
-              className="group bg-card border border-border rounded-lg p-4 hover:bg-accent hover:text-accent-foreground transition-all duration-200"
+              className="group bg-card border border-border rounded p-4 hover:bg-accent hover:text-accent-foreground transition-all duration-200"
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex-1">
@@ -228,18 +228,18 @@ export default function NewsletterSection() {
       {selectedTemplate && htmlPreview && (
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
+            <div className="w-6 h-6 bg-green-100 dark:bg-green-900/30 rounded flex items-center justify-center">
               <span className="text-green-600 dark:text-green-400 text-xs">✓</span>
             </div>
             <h2 className="text-base font-semibold text-foreground">
               {selectedTemplate} 템플릿 미리보기
             </h2>
           </div>
-          <div className="bg-muted border border-border rounded-lg p-4">
-            <div className="bg-card rounded-md shadow-sm border">
+          <div className="bg-muted border border-border rounded p-4">
+            <div className="bg-card rounded-sm shadow-sm border">
               <iframe
                 srcDoc={htmlPreview}
-                className="w-full h-80 border-0 rounded-md"
+                className="w-full h-80 border-0 rounded-sm"
                 title={`${selectedTemplate} 템플릿 미리보기`}
               />
             </div>
@@ -260,14 +260,10 @@ export default function NewsletterSection() {
           <RadioGroup className="flex flex-wrap gap-2" defaultValue="Neutral">
             {["Casual", "Neutral", "Formal"].map((tone) => (
               <div key={tone} className="flex items-center space-x-2">
-                <RadioGroupItem 
-                  value={tone} 
-                  id={`tone-${tone}`}
-                  className="sr-only peer"
-                />
+                <RadioGroupItem value={tone} id={`tone-${tone}`} className="sr-only peer" />
                 <Label
                   htmlFor={`tone-${tone}`}
-                  className="flex items-center justify-center px-3 py-2 border border-border rounded-md cursor-pointer hover:border-primary hover:bg-accent transition-all duration-200 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-accent peer-data-[state=checked]:text-accent-foreground text-xs font-medium"
+                  className="flex items-center justify-center px-3 py-2 border border-border rounded-sm cursor-pointer hover:border-primary hover:bg-accent transition-all duration-200 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-accent peer-data-[state=checked]:text-accent-foreground text-xs font-medium"
                 >
                   {tone}
                 </Label>
@@ -287,14 +283,14 @@ export default function NewsletterSection() {
           <RadioGroup className="flex flex-wrap gap-2" defaultValue="Informative">
             {["Informative", "Humorous", "Thoughtful"].map((personality) => (
               <div key={personality} className="flex items-center space-x-2">
-                <RadioGroupItem 
-                  value={personality} 
+                <RadioGroupItem
+                  value={personality}
                   id={`personality-${personality}`}
                   className="sr-only peer"
                 />
                 <Label
                   htmlFor={`personality-${personality}`}
-                  className="flex items-center justify-center px-3 py-2 border border-border rounded-md cursor-pointer hover:border-primary hover:bg-accent transition-all duration-200 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-accent peer-data-[state=checked]:text-accent-foreground text-xs font-medium"
+                  className="flex items-center justify-center px-3 py-2 border border-border rounded-sm cursor-pointer hover:border-primary hover:bg-accent transition-all duration-200 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-accent peer-data-[state=checked]:text-accent-foreground text-xs font-medium"
                 >
                   {personality}
                 </Label>
