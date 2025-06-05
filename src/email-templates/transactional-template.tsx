@@ -1,4 +1,15 @@
-import { Container, Heading, Hr, Link, Preview, Section, Text } from "@react-email/components";
+import {
+  Body,
+  Container,
+  Head,
+  Heading,
+  Hr,
+  Html,
+  Link,
+  Preview,
+  Section,
+  Text,
+} from "@react-email/components";
 
 import * as React from "react";
 
@@ -75,18 +86,22 @@ export default function TransactionalTemplate({
   );
 
   return (
-    <>
-      <Preview>{previewText}</Preview>
-      <Container style={container}>
-        <Section style={mainSection}>
-          <Heading style={heading}>📋 {title}</Heading>
-          <Hr style={hr} />
-          <Section style={contentSection}>{content}</Section>
-          <Hr style={hr} />
-          <Text style={footer}>이 메일은 {companyName}에서 발송되었습니다.</Text>
-        </Section>
-      </Container>
-    </>
+    <Html>
+      <Head>
+        <Preview>{previewText}</Preview>
+      </Head>
+      <Body>
+        <Container style={container}>
+          <Section style={mainSection}>
+            <Heading style={heading}>📋 {title}</Heading>
+            <Hr style={hr} />
+            <Section style={contentSection}>{content}</Section>
+            <Hr style={hr} />
+            <Text style={footer}>이 메일은 {companyName}에서 발송되었습니다.</Text>
+          </Section>
+        </Container>
+      </Body>
+    </Html>
   );
 }
 

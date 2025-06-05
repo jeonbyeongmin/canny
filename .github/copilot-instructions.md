@@ -68,7 +68,6 @@ react-email
 
 - Import components from @react-email/component.
 - Import render, pretty from @react-email/render.
-- Do not use `Html`, `Head`, `Body` components.
 
 ---
 

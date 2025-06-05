@@ -1,8 +1,11 @@
 import {
+  Body,
   Button,
   Container,
+  Head,
   Heading,
   Hr,
+  Html,
   Img,
   Preview,
   Section,
@@ -67,33 +70,37 @@ export default function PromotionalTemplate({
   );
 
   return (
-    <>
-      <Preview>{previewText}</Preview>
-      <Container style={container}>
-        <Section style={mainSection}>
-          <Heading style={heading}>🛍️ 특별 프로모션</Heading>
-          <Hr style={hr} />
-          <Section style={contentSection}>{content}</Section>
-          <Hr style={hr} />
-          <Text style={footer}>
-            이 메일은 {companyName}에서 발송되었습니다.
-            {companyAddress && (
-              <span>
-                <br />
-                {companyAddress}
-              </span>
-            )}
-          </Text>
-          {unsubscribeUrl !== "#" && (
-            <Text style={unsubscribeText}>
-              <a href={unsubscribeUrl} style={unsubscribeLink}>
-                구독 취소
-              </a>
+    <Html>
+      <Head>
+        <Preview>{previewText}</Preview>
+      </Head>
+      <Body>
+        <Container style={container}>
+          <Section style={mainSection}>
+            <Heading style={heading}>🛍️ 특별 프로모션</Heading>
+            <Hr style={hr} />
+            <Section style={contentSection}>{content}</Section>
+            <Hr style={hr} />
+            <Text style={footer}>
+              이 메일은 {companyName}에서 발송되었습니다.
+              {companyAddress && (
+                <span>
+                  <br />
+                  {companyAddress}
+                </span>
+              )}
             </Text>
-          )}
-        </Section>
-      </Container>
-    </>
+            {unsubscribeUrl !== "#" && (
+              <Text style={unsubscribeText}>
+                <a href={unsubscribeUrl} style={unsubscribeLink}>
+                  구독 취소
+                </a>
+              </Text>
+            )}
+          </Section>
+        </Container>
+      </Body>
+    </Html>
   );
 }
 

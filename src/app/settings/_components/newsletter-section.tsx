@@ -163,114 +163,143 @@ export default function NewsletterSection() {
   };
 
   return (
-    <div className="flex flex-col py-5">
-      <div className="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 flex-1">
-        <div className="flex flex-wrap justify-between gap-3 p-4">
-          <p className="text-[#111418] tracking-light text-[32px] font-bold leading-tight min-w-72">
-            뉴스레터 설정
+    <div className="space-y-8">
+      {/* 헤더 섹션 */}
+      <div className="border-b border-slate-200 pb-6">
+        <h1 className="text-3xl font-bold text-slate-900 mb-2">뉴스레터 설정</h1>
+        <p className="text-slate-600">이메일 템플릿을 선택하고 뉴스레터 설정을 관리하세요</p>
+      </div>
+
+      {/* 템플릿 선택 섹션 */}
+      <div className="space-y-6">
+        <div>
+          <h2 className="text-xl font-semibold text-slate-800 mb-4 flex items-center gap-2">
+            <span className="w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm">
+              ✉
+            </span>
+            템플릿 선택
+          </h2>
+          <p className="text-slate-600 text-sm mb-6">
+            용도에 맞는 이메일 템플릿을 선택하고 미리보기를 확인하세요
           </p>
         </div>
 
-        {/* 템플릿 선택 섹션 */}
-        <h3 className="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">
-          템플릿 선택
-        </h3>
-        <div className="flex flex-col gap-3 p-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {templates.map((template) => (
             <div
               key={template.name}
-              className="flex flex-col gap-3 rounded-xl border border-[#dbe0e6] p-4"
+              className="group bg-white border border-slate-200 rounded-xl p-6 hover:shadow-lg hover:border-blue-300 transition-all duration-200"
             >
-              <div className="flex items-center justify-between">
-                <div>
-                  <h4 className="text-[#111418] text-base font-bold leading-tight">
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-slate-800 mb-1 group-hover:text-blue-600 transition-colors">
                     {template.name}
-                  </h4>
-                  <p className="text-[#60758a] text-sm font-normal leading-normal">
-                    {template.description}
-                  </p>
+                  </h3>
+                  <p className="text-slate-600 text-sm leading-relaxed">{template.description}</p>
                 </div>
-                <button
-                  onClick={() => handlePreview(template.name)}
-                  className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#0c7ff2] text-white text-sm font-bold leading-normal tracking-[0.015em]"
-                >
-                  <span className="truncate">미리보기</span>
-                </button>
               </div>
+              <button
+                onClick={() => handlePreview(template.name)}
+                className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg"
+              >
+                미리보기
+              </button>
             </div>
           ))}
         </div>
+      </div>
 
-        {/* 미리보기 결과 */}
-        {selectedTemplate && htmlPreview && (
-          <div className="p-4">
-            <h3 className="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] pb-2">
+      {/* 미리보기 결과 */}
+      {selectedTemplate && htmlPreview && (
+        <div className="space-y-4">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+              <span className="text-green-600 text-sm">✓</span>
+            </div>
+            <h2 className="text-xl font-semibold text-slate-800">
               {selectedTemplate} 템플릿 미리보기
-            </h3>
-            <div className="border border-[#dbe0e6] rounded-xl p-4 bg-white">
+            </h2>
+          </div>
+          <div className="bg-slate-50 border border-slate-200 rounded-xl p-6">
+            <div className="bg-white rounded-lg shadow-inner border">
               <iframe
                 srcDoc={htmlPreview}
-                className="w-full h-96 border-0"
+                className="w-full h-96 border-0 rounded-lg"
                 title={`${selectedTemplate} 템플릿 미리보기`}
               />
             </div>
           </div>
-        )}
+        </div>
+      )}
 
-        <h3 className="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">
-          Tone
+      {/* 설정 섹션들 */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Tone 설정 */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-slate-800 flex items-center gap-2">
+            <span className="w-5 h-5 bg-orange-100 rounded text-orange-600 text-xs flex items-center justify-center">
+              🎭
+            </span>
+            톤
+          </h3>
+          <div className="flex flex-wrap gap-3">
+            {["Casual", "Neutral", "Formal"].map((tone) => (
+              <label
+                key={tone}
+                className="flex items-center justify-center px-4 py-3 border border-slate-200 rounded-lg cursor-pointer hover:border-blue-300 hover:bg-blue-50 transition-all duration-200 has-[:checked]:border-blue-500 has-[:checked]:bg-blue-100 has-[:checked]:text-blue-700"
+              >
+                <span className="text-sm font-medium">{tone}</span>
+                <input type="radio" className="sr-only" name="tone" />
+              </label>
+            ))}
+          </div>
+        </div>
+
+        {/* Personality 설정 */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-slate-800 flex items-center gap-2">
+            <span className="w-5 h-5 bg-purple-100 rounded text-purple-600 text-xs flex items-center justify-center">
+              😊
+            </span>
+            성격
+          </h3>
+          <div className="flex flex-wrap gap-3">
+            {["Informative", "Humorous", "Thoughtful"].map((personality) => (
+              <label
+                key={personality}
+                className="flex items-center justify-center px-4 py-3 border border-slate-200 rounded-lg cursor-pointer hover:border-purple-300 hover:bg-purple-50 transition-all duration-200 has-[:checked]:border-purple-500 has-[:checked]:bg-purple-100 has-[:checked]:text-purple-700"
+              >
+                <span className="text-sm font-medium">{personality}</span>
+                <input type="radio" className="sr-only" name="personality" />
+              </label>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* 토픽 선택 */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold text-slate-800 flex items-center gap-2">
+          <span className="w-5 h-5 bg-green-100 rounded text-green-600 text-xs flex items-center justify-center">
+            📝
+          </span>
+          주제
         </h3>
-        <div className="flex flex-wrap gap-3 p-4">
-          <label className="text-sm font-medium leading-normal flex items-center justify-center rounded-xl border border-[#dbe0e6] px-4 h-11 text-[#111418] has-[:checked]:border-[3px] has-[:checked]:px-3.5 has-[:checked]:border-[#0c7ff2] relative cursor-pointer">
-            Casual
-            <input type="radio" className="invisible absolute" name="tone" />
-          </label>
-          <label className="text-sm font-medium leading-normal flex items-center justify-center rounded-xl border border-[#dbe0e6] px-4 h-11 text-[#111418] has-[:checked]:border-[3px] has-[:checked]:px-3.5 has-[:checked]:border-[#0c7ff2] relative cursor-pointer">
-            Neutral
-            <input type="radio" className="invisible absolute" name="tone" />
-          </label>
-          <label className="text-sm font-medium leading-normal flex items-center justify-center rounded-xl border border-[#dbe0e6] px-4 h-11 text-[#111418] has-[:checked]:border-[3px] has-[:checked]:px-3.5 has-[:checked]:border-[#0c7ff2] relative cursor-pointer">
-            Formal
-            <input type="radio" className="invisible absolute" name="tone" />
-          </label>
+        <div className="max-w-md">
+          <select className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-slate-800">
+            <option value="">주제를 선택하세요</option>
+            <option value="tech">기술</option>
+            <option value="business">비즈니스</option>
+            <option value="lifestyle">라이프스타일</option>
+          </select>
         </div>
+      </div>
 
-        <h3 className="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">
-          Personality
-        </h3>
-        <div className="flex flex-wrap gap-3 p-4">
-          <label className="text-sm font-medium leading-normal flex items-center justify-center rounded-xl border border-[#dbe0e6] px-4 h-11 text-[#111418] has-[:checked]:border-[3px] has-[:checked]:px-3.5 has-[:checked]:border-[#0c7ff2] relative cursor-pointer">
-            Informative
-            <input type="radio" className="invisible absolute" name="personality" />
-          </label>
-          <label className="text-sm font-medium leading-normal flex items-center justify-center rounded-xl border border-[#dbe0e6] px-4 h-11 text-[#111418] has-[:checked]:border-[3px] has-[:checked]:px-3.5 has-[:checked]:border-[#0c7ff2] relative cursor-pointer">
-            Humorous
-            <input type="radio" className="invisible absolute" name="personality" />
-          </label>
-          <label className="text-sm font-medium leading-normal flex items-center justify-center rounded-xl border border-[#dbe0e6] px-4 h-11 text-[#111418] has-[:checked]:border-[3px] has-[:checked]:px-3.5 has-[:checked]:border-[#0c7ff2] relative cursor-pointer">
-            Thoughtful
-            <input type="radio" className="invisible absolute" name="personality" />
-          </label>
-        </div>
-
-        <h3 className="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">
-          Topics
-        </h3>
-        <div className="flex max-w-[480px] flex-wrap items-end gap-4 px-4 py-3">
-          <label className="flex flex-col min-w-40 flex-1">
-            <select className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#111418] focus:outline-0 focus:ring-0 border border-[#dbe0e6] bg-white focus:border-[#dbe0e6] h-14 bg-[image:--select-button-svg] placeholder:text-[#60758a] p-[15px] text-base font-normal leading-normal">
-              <option value="one">Select a topic</option>
-              <option value="two">two</option>
-              <option value="three">three</option>
-            </select>
-          </label>
-        </div>
-
-        <div className="flex px-4 py-3 justify-end">
-          <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#0c7ff2] text-white text-sm font-bold leading-normal tracking-[0.015em]">
-            <span className="truncate">Save</span>
-          </button>
-        </div>
+      {/* 저장 버튼 */}
+      <div className="flex justify-end pt-6 border-t border-slate-200">
+        <button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg">
+          설정 저장
+        </button>
       </div>
     </div>
   );

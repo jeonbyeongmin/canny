@@ -1,4 +1,14 @@
-import { Button, Container, Heading, Hr, Preview, Section, Text } from "@react-email/components";
+import {
+  Button,
+  Container,
+  Head,
+  Heading,
+  Hr,
+  Html,
+  Preview,
+  Section,
+  Text,
+} from "@react-email/components";
 
 import * as React from "react";
 
@@ -34,8 +44,10 @@ export default function SimpleTemplate({
   );
 
   return (
-    <>
-      <Preview>{previewText}</Preview>
+    <Html>
+      <Head>
+        <Preview>{previewText}</Preview>
+      </Head>
       <Container style={container}>
         <Section style={mainSection}>
           <Heading style={heading}>{title}</Heading>
@@ -45,7 +57,7 @@ export default function SimpleTemplate({
           <Text style={footer}>이 메일은 Great Pleasure Inc.에서 발송되었습니다.</Text>
         </Section>
       </Container>
-    </>
+    </Html>
   );
 }
 

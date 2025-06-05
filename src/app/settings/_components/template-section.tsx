@@ -147,50 +147,104 @@ export default function TemplateSection() {
     setPreviewHtml(html);
   };
 
+  const getTemplateIcon = (templateName: string) => {
+    switch (templateName) {
+      case "Simple":
+        return "📄";
+      case "Promotional":
+        return "🎯";
+      case "Transactional":
+        return "📋";
+      case "Newsletter":
+        return "📰";
+      default:
+        return "📧";
+    }
+  };
+
+  const getTemplateGradient = (templateName: string) => {
+    switch (templateName) {
+      case "Simple":
+        return "from-blue-500 to-cyan-600";
+      case "Promotional":
+        return "from-green-500 to-emerald-600";
+      case "Transactional":
+        return "from-purple-500 to-pink-600";
+      case "Newsletter":
+        return "from-orange-500 to-red-600";
+      default:
+        return "from-slate-500 to-gray-600";
+    }
+  };
+
   return (
-    <div className="flex flex-1 justify-center py-5">
-      <div className="layout-content-container flex flex-col w-full px-4 md:px-0 md:w-3/4 lg:w-2/3 xl:w-1/2 py-5 flex-1">
-        <div className="flex flex-wrap justify-between gap-3 p-4">
-          <p className="text-[#111418] tracking-light text-[32px] font-bold leading-tight min-w-72">
-            Email Templates
-          </p>
-        </div>
+    <div className="space-y-8">
+      {/* 헤더 섹션 */}
+      <div className="border-b border-slate-200 pb-6">
+        <h1 className="text-3xl font-bold text-slate-900 mb-2">이메일 템플릿</h1>
+        <p className="text-slate-600">
+          다양한 목적에 맞는 이메일 템플릿을 선택하고 미리보기로 확인하세요
+        </p>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
-          {templates.map((template) => (
-            <div
-              key={template.name}
-              className="border border-gray-200 rounded-lg p-6 shadow hover:shadow-lg transition-shadow cursor-pointer"
-              onClick={() => handlePreview(template.name, template.component)}
-            >
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">{template.name} Template</h3>
-              <p className="text-sm text-gray-600 mb-4">
-                {template.name === "Simple" && "기본적인 알림 및 메시지 전달용 템플릿입니다."}
-                {template.name === "Promotional" &&
-                  "제품 또는 서비스 프로모션에 적합한 템플릿입니다."}
-                {template.name === "Transactional" &&
-                  "주문 확인, 영수증 등 거래 관련 정보 전달용 템플릿입니다."}
-                {template.name === "Newsletter" && "정기적인 뉴스레터 발송에 적합한 템플릿입니다."}
-              </p>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation(); // Prevent card click
-                  handlePreview(template.name, template.component);
-                }}
-                className="w-full bg-[#0c7ff2] text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors text-sm font-medium"
+      {/* 템플릿 그리드 */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {templates.map((template) => (
+          <div
+            key={template.name}
+            className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer group hover:border-slate-300"
+            onClick={() => handlePreview(template.name, template.component)}
+          >
+            <div className="flex items-start gap-4">
+              <div
+                className={`w-12 h-12 bg-gradient-to-r ${getTemplateGradient(template.name)} rounded-xl flex items-center justify-center shadow-sm`}
               >
-                미리보기
-              </button>
+                <span className="text-white text-lg">{getTemplateIcon(template.name)}</span>
+              </div>
+              <div className="flex-1">
+                <h3 className="text-xl font-semibold text-slate-800 mb-2 group-hover:text-slate-900 transition-colors">
+                  {template.name} Template
+                </h3>
+                <p className="text-sm text-slate-600 mb-4 leading-relaxed">
+                  {template.name === "Simple" && "기본적인 알림 및 메시지 전달용 템플릿입니다."}
+                  {template.name === "Promotional" &&
+                    "제품 또는 서비스 프로모션에 적합한 템플릿입니다."}
+                  {template.name === "Transactional" &&
+                    "주문 확인, 영수증 등 거래 관련 정보 전달용 템플릿입니다."}
+                  {template.name === "Newsletter" &&
+                    "정기적인 뉴스레터 발송에 적합한 템플릿입니다."}
+                </p>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handlePreview(template.name, template.component);
+                  }}
+                  className={`bg-gradient-to-r ${getTemplateGradient(template.name)} hover:scale-[1.02] text-white font-semibold py-2.5 px-6 rounded-lg transition-all duration-200 text-sm shadow-md hover:shadow-lg active:scale-[0.98]`}
+                >
+                  미리보기
+                </button>
+              </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
+      </div>
 
-        {selectedTemplate && previewHtml && (
-          <div className="mt-10 p-4 border border-gray-300 rounded-lg bg-gray-50">
-            <h3 className="text-2xl font-semibold text-gray-800 mb-4">
+      {/* 미리보기 섹션 */}
+      {selectedTemplate && previewHtml && (
+        <div className="bg-white rounded-xl border border-slate-200 p-8 shadow-sm">
+          <div className="flex items-center gap-3 mb-6">
+            <div
+              className={`w-8 h-8 bg-gradient-to-r ${getTemplateGradient(selectedTemplate)} rounded-full flex items-center justify-center`}
+            >
+              <span className="text-white text-sm">{getTemplateIcon(selectedTemplate)}</span>
+            </div>
+            <h3 className="text-xl font-semibold text-slate-800">
               {selectedTemplate} Template 미리보기
             </h3>
-            <div className="w-full h-[600px] border border-gray-300 rounded-md overflow-hidden">
+          </div>
+
+          <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
+            <div className="w-full h-[600px] bg-white rounded-md overflow-hidden shadow-sm border border-slate-200">
               <iframe
                 srcDoc={previewHtml}
                 title={`${selectedTemplate} Preview`}
@@ -198,7 +252,44 @@ export default function TemplateSection() {
               />
             </div>
           </div>
-        )}
+
+          <div className="mt-6 flex justify-center">
+            <button
+              onClick={() => {
+                setSelectedTemplate(null);
+                setPreviewHtml("");
+              }}
+              className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 px-6 rounded-lg transition-colors"
+            >
+              미리보기 닫기
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* 도움말 섹션 */}
+      <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
+        <h3 className="text-blue-800 text-lg font-semibold mb-3 flex items-center gap-2">
+          💡 템플릿 사용 가이드
+        </h3>
+        <ul className="text-blue-700 text-sm space-y-2">
+          <li className="flex items-start gap-2">
+            <span className="text-blue-500 mt-1">•</span>각 템플릿은 특정 용도에 최적화되어 있으니
+            목적에 맞게 선택하세요
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-blue-500 mt-1">•</span>
+            미리보기를 통해 실제 이메일 모습을 확인할 수 있습니다
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-blue-500 mt-1">•</span>
+            템플릿은 모바일과 데스크톱 환경 모두에서 최적화되어 표시됩니다
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-blue-500 mt-1">•</span>
+            Newsletter 템플릿은 GPT 설정과 연동되어 자동 생성됩니다
+          </li>
+        </ul>
       </div>
     </div>
   );

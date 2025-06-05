@@ -17,7 +17,6 @@ export default function GptSection() {
   ];
 
   const handleSave = () => {
-    // 설정 저장 로직
     console.log("GPT 설정 저장:", {
       apiKey,
       selectedModel,
@@ -27,61 +26,88 @@ export default function GptSection() {
     });
   };
 
-  const handleTestConnection = () => {
-    // API 연결 테스트 로직
+  const handleTestConnection = async () => {
     console.log("API 연결 테스트");
   };
 
+  const handleReset = () => {
+    setApiKey("");
+    setSelectedModel("gpt-4");
+    setTemperature(0.7);
+    setMaxTokens(2000);
+    setSystemPrompt("");
+  };
+
   return (
-    <div className="flex flex-1 justify-center py-5">
-      <div className="layout-content-container flex flex-col w-[600px] max-w-[600px] py-5 flex-1">
-        <div className="flex flex-wrap justify-between gap-3 p-4">
-          <p className="text-[#111418] tracking-light text-[32px] font-bold leading-tight min-w-72">
-            GPT 설정
-          </p>
+    <div className="space-y-8">
+      {/* 헤더 섹션 */}
+      <div className="border-b border-slate-200 pb-6">
+        <h1 className="text-3xl font-bold text-slate-900 mb-2">GPT 설정</h1>
+        <p className="text-slate-600">
+          OpenAI GPT 모델을 사용한 뉴스 요약 및 분석 설정을 관리하세요
+        </p>
+      </div>
+
+      {/* API 키 설정 */}
+      <div className="bg-white rounded-xl border border-slate-200 p-8 shadow-sm">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center">
+            <span className="text-white text-sm">🔑</span>
+          </div>
+          <h2 className="text-xl font-semibold text-slate-800">API 키 설정</h2>
         </div>
 
-        {/* API 키 설정 */}
-        <h3 className="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">
-          API 키
-        </h3>
-        <div className="flex max-w-[580px] flex-wrap items-end gap-4 px-4 py-3">
-          <label className="flex flex-col min-w-40 flex-1">
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-slate-700">OpenAI API 키</label>
             <div className="relative">
               <input
                 type={isApiKeyVisible ? "text" : "password"}
-                placeholder="OpenAI API 키를 입력하세요"
+                placeholder="sk-..."
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
-                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#111418] focus:outline-0 focus:ring-0 border border-[#dbe0e6] bg-white focus:border-[#dbe0e6] h-14 placeholder:text-[#60758a] p-[15px] pr-[50px] text-base font-normal leading-normal"
+                className="w-full h-11 px-4 pr-12 rounded-lg border border-slate-200 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200 font-mono text-sm"
               />
               <button
                 type="button"
                 onClick={() => setIsApiKeyVisible(!isApiKeyVisible)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#60758a] hover:text-[#111418]"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
               >
                 {isApiKeyVisible ? "🙈" : "👁️"}
               </button>
             </div>
-          </label>
-          <button
-            onClick={handleTestConnection}
-            className="flex min-w-[84px] max-w-[160px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 px-4 bg-[#f0f2f5] text-[#111418] text-sm font-bold leading-normal tracking-[0.015em]"
-          >
-            <span className="truncate">연결 테스트</span>
-          </button>
+            <p className="text-xs text-slate-500">
+              OpenAI 계정에서 발급받은 API 키를 입력하세요. 안전하게 암호화되어 저장됩니다.
+            </p>
+          </div>
+
+          <div className="flex gap-3 pt-4">
+            <button
+              onClick={handleTestConnection}
+              className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 px-6 rounded-lg transition-colors"
+            >
+              연결 테스트
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* 모델 설정 */}
+      <div className="bg-white rounded-xl border border-slate-200 p-8 shadow-sm">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center">
+            <span className="text-white text-sm">🤖</span>
+          </div>
+          <h2 className="text-xl font-semibold text-slate-800">모델 설정</h2>
         </div>
 
-        {/* 모델 선택 */}
-        <h3 className="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">
-          모델 선택
-        </h3>
-        <div className="flex max-w-[580px] flex-wrap items-end gap-4 px-4 py-3">
-          <label className="flex flex-col min-w-40 flex-1">
+        <div className="space-y-6">
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-slate-700">GPT 모델 선택</label>
             <select
               value={selectedModel}
               onChange={(e) => setSelectedModel(e.target.value)}
-              className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#111418] focus:outline-0 focus:ring-0 border border-[#dbe0e6] bg-white focus:border-[#dbe0e6] h-14 bg-[image:--select-button-svg] placeholder:text-[#60758a] p-[15px] text-base font-normal leading-normal"
+              className="w-full h-11 px-4 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white"
             >
               {models.map((model) => (
                 <option key={model.value} value={model.value}>
@@ -89,123 +115,137 @@ export default function GptSection() {
                 </option>
               ))}
             </select>
-          </label>
+            <p className="text-xs text-slate-500">
+              GPT-4는 더 정확하지만 비용이 높고, GPT-3.5 Turbo는 빠르고 저렴합니다.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-slate-700">
+                Temperature: {temperature}
+              </label>
+              <input
+                type="range"
+                min="0"
+                max="2"
+                step="0.1"
+                value={temperature}
+                onChange={(e) => setTemperature(parseFloat(e.target.value))}
+                className="w-full h-2 bg-slate-200 rounded-lg cursor-pointer"
+              />
+              <p className="text-xs text-slate-500">창의성 수준 (0.0: 일관성, 2.0: 창의성)</p>
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-slate-700">
+                Max Tokens: {maxTokens}
+              </label>
+              <input
+                type="range"
+                min="100"
+                max="4000"
+                step="100"
+                value={maxTokens}
+                onChange={(e) => setMaxTokens(parseInt(e.target.value))}
+                className="w-full h-2 bg-slate-200 rounded-lg cursor-pointer"
+              />
+              <p className="text-xs text-slate-500">응답 최대 길이 (토큰 수)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 시스템 프롬프트 */}
+      <div className="bg-white rounded-xl border border-slate-200 p-8 shadow-sm">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center">
+            <span className="text-white text-sm">📝</span>
+          </div>
+          <h2 className="text-xl font-semibold text-slate-800">시스템 프롬프트</h2>
         </div>
 
-        {/* 파라미터 설정 */}
-        <h3 className="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">
-          파라미터 설정
-        </h3>
-
-        {/* Temperature */}
-        <div className="px-4 py-3">
-          <label className="flex flex-col gap-2">
-            <span className="text-[#111418] text-sm font-medium">
-              Temperature: {temperature}
-            </span>
-            <span className="text-[#60758a] text-xs">
-              값이 높을수록 더 창의적이고 다양한 응답을 생성합니다 (0.0 - 2.0)
-            </span>
-            <input
-              type="range"
-              min="0"
-              max="2"
-              step="0.1"
-              value={temperature}
-              onChange={(e) => setTemperature(parseFloat(e.target.value))}
-              className="w-full h-2 bg-[#dbe0e6] rounded-lg appearance-none cursor-pointer slider"
-            />
-          </label>
-        </div>
-
-        {/* Max Tokens */}
-        <div className="px-4 py-3">
-          <label className="flex flex-col gap-2">
-            <span className="text-[#111418] text-sm font-medium">
-              Max Tokens: {maxTokens}
-            </span>
-            <span className="text-[#60758a] text-xs">
-              응답에서 생성할 최대 토큰 수입니다
-            </span>
-            <input
-              type="range"
-              min="100"
-              max="4000"
-              step="100"
-              value={maxTokens}
-              onChange={(e) => setMaxTokens(parseInt(e.target.value))}
-              className="w-full h-2 bg-[#dbe0e6] rounded-lg appearance-none cursor-pointer slider"
-            />
-          </label>
-        </div>
-
-        {/* 시스템 프롬프트 */}
-        <h3 className="text-[#111418] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">
-          시스템 프롬프트
-        </h3>
-        <div className="flex max-w-[580px] flex-wrap items-end gap-4 px-4 py-3">
-          <label className="flex flex-col min-w-40 flex-1">
-            <span className="text-[#60758a] text-xs mb-2">
-              뉴스레터 생성 시 GPT가 따라야 할 기본 지침을 설정하세요
-            </span>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-slate-700">기본 지침</label>
             <textarea
               placeholder="예: 당신은 전문적인 뉴스레터 작성자입니다. 간결하고 흥미로운 방식으로 기술 뉴스를 요약해주세요."
               value={systemPrompt}
               onChange={(e) => setSystemPrompt(e.target.value)}
               rows={4}
-              className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#111418] focus:outline-0 focus:ring-0 border border-[#dbe0e6] bg-white focus:border-[#dbe0e6] placeholder:text-[#60758a] p-[15px] text-base font-normal leading-normal"
+              className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200 resize-none"
             />
-          </label>
+            <p className="text-xs text-slate-500">
+              GPT가 뉴스레터 생성 시 따라야 할 기본 지침을 설정하세요.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* 사용 통계 */}
+      <div className="bg-white rounded-xl border border-slate-200 p-8 shadow-sm">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-600 rounded-full flex items-center justify-center">
+            <span className="text-white text-sm">📊</span>
+          </div>
+          <h2 className="text-xl font-semibold text-slate-800">사용 통계</h2>
         </div>
 
-        {/* 저장 버튼 */}
-        <div className="flex px-4 py-3 justify-end gap-3">
-          <button
-            onClick={() => {
-              setApiKey("");
-              setSelectedModel("gpt-4");
-              setTemperature(0.7);
-              setMaxTokens(2000);
-              setSystemPrompt("");
-            }}
-            className="flex min-w-[84px] max-w-[160px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#f0f2f5] text-[#111418] text-sm font-bold leading-normal tracking-[0.015em]"
-          >
-            <span className="truncate">초기화</span>
-          </button>
-          <button
-            onClick={handleSave}
-            className="flex min-w-[84px] max-w-[160px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#0c7ff2] text-white text-sm font-bold leading-normal tracking-[0.015em]"
-          >
-            <span className="truncate">저장</span>
-          </button>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-slate-50 rounded-lg p-4">
+            <div className="text-2xl font-bold text-slate-800 mb-1">1,247</div>
+            <div className="text-sm text-slate-600">이번 달 토큰 사용</div>
+          </div>
+          <div className="bg-slate-50 rounded-lg p-4">
+            <div className="text-2xl font-bold text-slate-800 mb-1">$12.47</div>
+            <div className="text-sm text-slate-600">이번 달 비용</div>
+          </div>
+          <div className="bg-slate-50 rounded-lg p-4">
+            <div className="text-2xl font-bold text-slate-800 mb-1">23</div>
+            <div className="text-sm text-slate-600">생성된 뉴스레터</div>
+          </div>
         </div>
+      </div>
 
-        {/* 도움말 섹션 */}
-        <div className="mx-4 mt-6 p-4 bg-[#f8f9fb] rounded-xl border border-[#dbe0e6]">
-          <h4 className="text-[#111418] text-sm font-bold mb-2">💡 도움말</h4>
-          <ul className="text-[#60758a] text-xs space-y-1">
-            <li>
-              • OpenAI API 키는{" "}
-              <a
-                href="https://platform.openai.com/api-keys"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#0c7ff2] underline"
-              >
-                OpenAI 플랫폼
-              </a>
-              에서 발급받을 수 있습니다.
-            </li>
-            <li>
-              • Temperature가 높을수록 더 창의적이지만 일관성이 떨어질 수
-              있습니다.
-            </li>
-            <li>
-              • Max Tokens는 응답 길이를 제한하며, 비용에도 영향을 줍니다.
-            </li>
-            <li>• 시스템 프롬프트는 GPT의 역할과 응답 스타일을 정의합니다.</li>
-          </ul>
-        </div>
+      {/* 저장 버튼 */}
+      <div className="flex justify-between pt-6 border-t border-slate-200">
+        <button
+          onClick={handleReset}
+          className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-3 px-6 rounded-lg transition-colors"
+        >
+          설정 초기화
+        </button>
+        <button
+          onClick={handleSave}
+          className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg"
+        >
+          변경사항 저장
+        </button>
+      </div>
+
+      {/* 도움말 */}
+      <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
+        <h3 className="text-blue-800 text-lg font-semibold mb-3 flex items-center gap-2">
+          💡 사용 팁
+        </h3>
+        <ul className="text-blue-700 text-sm space-y-2">
+          <li className="flex items-start gap-2">
+            <span className="text-blue-500 mt-1">•</span>
+            API 키는 OpenAI 계정의 API Keys 섹션에서 발급받을 수 있습니다
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-blue-500 mt-1">•</span>
+            Temperature는 0.7-1.0 사이에서 시작하여 조정해보세요
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-blue-500 mt-1">•</span>
+            시스템 프롬프트로 뉴스레터의 톤앤매너를 조절할 수 있습니다
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-blue-500 mt-1">•</span>
+            사용량을 정기적으로 확인하여 비용을 관리하세요
+          </li>
+        </ul>
       </div>
     </div>
   );
