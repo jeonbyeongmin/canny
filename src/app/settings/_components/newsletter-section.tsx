@@ -163,44 +163,48 @@ export default function NewsletterSection() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* 헤더 섹션 */}
-      <div className="border-b border-slate-200 pb-6">
-        <h1 className="text-3xl font-bold text-slate-900 mb-2">뉴스레터 설정</h1>
-        <p className="text-slate-600">이메일 템플릿을 선택하고 뉴스레터 설정을 관리하세요</p>
+      <div className="border-b border-border pb-4">
+        <h1 className="text-lg font-bold text-foreground mb-1">뉴스레터 설정</h1>
+        <p className="text-muted-foreground text-xs">
+          이메일 템플릿을 선택하고 뉴스레터 설정을 관리하세요
+        </p>
       </div>
 
       {/* 템플릿 선택 섹션 */}
-      <div className="space-y-6">
+      <div className="space-y-4">
         <div>
-          <h2 className="text-xl font-semibold text-slate-800 mb-4 flex items-center gap-2">
-            <span className="w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm">
+          <h2 className="text-base font-semibold text-foreground mb-3 flex items-center gap-2">
+            <span className="w-5 h-5 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-xs">
               ✉
             </span>
             템플릿 선택
           </h2>
-          <p className="text-slate-600 text-sm mb-6">
+          <p className="text-muted-foreground text-xs mb-4">
             용도에 맞는 이메일 템플릿을 선택하고 미리보기를 확인하세요
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {templates.map((template) => (
             <div
               key={template.name}
-              className="group bg-white border border-slate-200 rounded-xl p-6 hover:shadow-lg hover:border-blue-300 transition-all duration-200"
+              className="group bg-card border border-border rounded-lg p-4 hover:bg-accent hover:text-accent-foreground transition-all duration-200"
             >
-              <div className="flex items-start justify-between mb-4">
+              <div className="flex items-start justify-between mb-3">
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-slate-800 mb-1 group-hover:text-blue-600 transition-colors">
+                  <h3 className="text-sm font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">
                     {template.name}
                   </h3>
-                  <p className="text-slate-600 text-sm leading-relaxed">{template.description}</p>
+                  <p className="text-muted-foreground text-xs leading-relaxed">
+                    {template.description}
+                  </p>
                 </div>
               </div>
               <button
                 onClick={() => handlePreview(template.name)}
-                className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg"
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-2 px-3 rounded-md transition-all duration-200 text-xs"
               >
                 미리보기
               </button>
@@ -211,20 +215,20 @@ export default function NewsletterSection() {
 
       {/* 미리보기 결과 */}
       {selectedTemplate && htmlPreview && (
-        <div className="space-y-4">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-              <span className="text-green-600 text-sm">✓</span>
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
+              <span className="text-green-600 dark:text-green-400 text-xs">✓</span>
             </div>
-            <h2 className="text-xl font-semibold text-slate-800">
+            <h2 className="text-base font-semibold text-foreground">
               {selectedTemplate} 템플릿 미리보기
             </h2>
           </div>
-          <div className="bg-slate-50 border border-slate-200 rounded-xl p-6">
-            <div className="bg-white rounded-lg shadow-inner border">
+          <div className="bg-muted border border-border rounded-lg p-4">
+            <div className="bg-card rounded-md shadow-sm border">
               <iframe
                 srcDoc={htmlPreview}
-                className="w-full h-96 border-0 rounded-lg"
+                className="w-full h-80 border-0 rounded-md"
                 title={`${selectedTemplate} 템플릿 미리보기`}
               />
             </div>
@@ -233,22 +237,22 @@ export default function NewsletterSection() {
       )}
 
       {/* 설정 섹션들 */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Tone 설정 */}
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-slate-800 flex items-center gap-2">
-            <span className="w-5 h-5 bg-orange-100 rounded text-orange-600 text-xs flex items-center justify-center">
+        <div className="space-y-3">
+          <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+            <span className="w-4 h-4 bg-orange-100 dark:bg-orange-900/30 rounded text-orange-600 dark:text-orange-400 text-xs flex items-center justify-center">
               🎭
             </span>
             톤
           </h3>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2">
             {["Casual", "Neutral", "Formal"].map((tone) => (
               <label
                 key={tone}
-                className="flex items-center justify-center px-4 py-3 border border-slate-200 rounded-lg cursor-pointer hover:border-blue-300 hover:bg-blue-50 transition-all duration-200 has-[:checked]:border-blue-500 has-[:checked]:bg-blue-100 has-[:checked]:text-blue-700"
+                className="flex items-center justify-center px-3 py-2 border border-border rounded-md cursor-pointer hover:border-primary hover:bg-accent transition-all duration-200 has-[:checked]:border-primary has-[:checked]:bg-accent has-[:checked]:text-accent-foreground"
               >
-                <span className="text-sm font-medium">{tone}</span>
+                <span className="text-xs font-medium">{tone}</span>
                 <input type="radio" className="sr-only" name="tone" />
               </label>
             ))}
@@ -256,20 +260,20 @@ export default function NewsletterSection() {
         </div>
 
         {/* Personality 설정 */}
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-slate-800 flex items-center gap-2">
-            <span className="w-5 h-5 bg-purple-100 rounded text-purple-600 text-xs flex items-center justify-center">
+        <div className="space-y-3">
+          <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+            <span className="w-4 h-4 bg-purple-100 dark:bg-purple-900/30 rounded text-purple-600 dark:text-purple-400 text-xs flex items-center justify-center">
               😊
             </span>
             성격
           </h3>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2">
             {["Informative", "Humorous", "Thoughtful"].map((personality) => (
               <label
                 key={personality}
-                className="flex items-center justify-center px-4 py-3 border border-slate-200 rounded-lg cursor-pointer hover:border-purple-300 hover:bg-purple-50 transition-all duration-200 has-[:checked]:border-purple-500 has-[:checked]:bg-purple-100 has-[:checked]:text-purple-700"
+                className="flex items-center justify-center px-3 py-2 border border-border rounded-md cursor-pointer hover:border-primary hover:bg-accent transition-all duration-200 has-[:checked]:border-primary has-[:checked]:bg-accent has-[:checked]:text-accent-foreground"
               >
-                <span className="text-sm font-medium">{personality}</span>
+                <span className="text-xs font-medium">{personality}</span>
                 <input type="radio" className="sr-only" name="personality" />
               </label>
             ))}
@@ -278,15 +282,15 @@ export default function NewsletterSection() {
       </div>
 
       {/* 토픽 선택 */}
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-slate-800 flex items-center gap-2">
-          <span className="w-5 h-5 bg-green-100 rounded text-green-600 text-xs flex items-center justify-center">
+      <div className="space-y-3">
+        <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+          <span className="w-4 h-4 bg-green-100 dark:bg-green-900/30 rounded text-green-600 dark:text-green-400 text-xs flex items-center justify-center">
             📝
           </span>
           주제
         </h3>
         <div className="max-w-md">
-          <select className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white text-slate-800">
+          <select className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-ring focus:border-ring transition-all duration-200 bg-background text-foreground text-xs h-9">
             <option value="">주제를 선택하세요</option>
             <option value="tech">기술</option>
             <option value="business">비즈니스</option>
@@ -296,8 +300,8 @@ export default function NewsletterSection() {
       </div>
 
       {/* 저장 버튼 */}
-      <div className="flex justify-end pt-6 border-t border-slate-200">
-        <button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg">
+      <div className="flex justify-end pt-4 border-t border-border">
+        <button className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-2 px-6 rounded-md transition-all duration-200 text-xs">
           설정 저장
         </button>
       </div>

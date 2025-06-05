@@ -106,17 +106,19 @@ export default function SiteSection() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* 헤더 섹션 */}
-      <div className="border-b border-slate-200 pb-6">
+      <div className="border-b border-border pb-4">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">뉴스 소스 관리</h1>
-            <p className="text-slate-600">뉴스레터에 포함될 뉴스 소스 사이트들을 관리하세요</p>
+            <h1 className="text-lg font-bold text-foreground mb-1">뉴스 소스 관리</h1>
+            <p className="text-muted-foreground text-xs">
+              뉴스레터에 포함될 뉴스 소스 사이트들을 관리하세요
+            </p>
           </div>
           <button
             onClick={() => setIsAddingNewSite(!isAddingNewSite)}
-            className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg flex items-center gap-2"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-2 px-4 rounded-md transition-all duration-200 flex items-center gap-2 text-xs"
           >
             <span>+</span>새 사이트 추가
           </button>
@@ -125,32 +127,32 @@ export default function SiteSection() {
 
       {/* 새 사이트 추가 폼 */}
       {isAddingNewSite && (
-        <div className="bg-white rounded-xl border border-slate-200 p-8 shadow-sm">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-8 h-8 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full flex items-center justify-center">
-              <span className="text-white text-sm">➕</span>
+        <div className="bg-card rounded-lg border border-border p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+              <span className="text-primary-foreground text-xs">➕</span>
             </div>
-            <h2 className="text-xl font-semibold text-slate-800">새 뉴스 소스 추가</h2>
+            <h2 className="text-base font-semibold text-foreground">새 뉴스 소스 추가</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-slate-700">사이트 이름</label>
+              <label className="block text-xs font-medium text-foreground">사이트 이름</label>
               <input
                 type="text"
                 placeholder="예: TechCrunch"
                 value={newSiteName}
                 onChange={(e) => setNewSiteName(e.target.value)}
-                className="w-full h-11 px-4 rounded-lg border border-slate-200 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200"
+                className="w-full h-9 px-3 rounded-md border border-border focus:ring-2 focus:ring-ring focus:border-ring transition-all duration-200 bg-background text-foreground text-xs"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-slate-700">카테고리</label>
+              <label className="block text-xs font-medium text-foreground">카테고리</label>
               <select
                 value={newSiteCategory}
                 onChange={(e) => setNewSiteCategory(e.target.value)}
-                className="w-full h-11 px-4 rounded-lg border border-slate-200 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 bg-white"
+                className="w-full h-9 px-3 rounded-md border border-border focus:ring-2 focus:ring-ring focus:border-ring transition-all duration-200 bg-background text-foreground text-xs"
               >
                 {categories.map((cat) => (
                   <option key={cat} value={cat}>
@@ -161,38 +163,38 @@ export default function SiteSection() {
             </div>
           </div>
 
-          <div className="space-y-2 mb-6">
-            <label className="block text-sm font-medium text-slate-700">사이트 URL</label>
+          <div className="space-y-2 mb-4">
+            <label className="block text-xs font-medium text-foreground">사이트 URL</label>
             <input
               type="url"
               placeholder="https://example.com"
               value={newSiteUrl}
               onChange={(e) => setNewSiteUrl(e.target.value)}
-              className="w-full h-11 px-4 rounded-lg border border-slate-200 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200"
+              className="w-full h-9 px-3 rounded-md border border-border focus:ring-2 focus:ring-ring focus:border-ring transition-all duration-200 bg-background text-foreground text-xs"
             />
           </div>
 
-          <div className="space-y-2 mb-6">
-            <label className="block text-sm font-medium text-slate-700">설명 (선택사항)</label>
+          <div className="space-y-2 mb-4">
+            <label className="block text-xs font-medium text-foreground">설명 (선택사항)</label>
             <textarea
               placeholder="이 뉴스 소스에 대한 간단한 설명을 입력하세요"
               value={newSiteDescription}
               onChange={(e) => setNewSiteDescription(e.target.value)}
               rows={3}
-              className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 resize-none"
+              className="w-full px-3 py-2 rounded-md border border-border focus:ring-2 focus:ring-ring focus:border-ring transition-all duration-200 resize-none bg-background text-foreground text-xs"
             />
           </div>
 
-          <div className="flex gap-3 pt-4 border-t border-slate-200">
+          <div className="flex gap-2 pt-3 border-t border-border">
             <button
               onClick={handleAddSite}
-              className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-semibold py-2.5 px-6 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-2 px-4 rounded-md transition-all duration-200 text-xs"
             >
               추가
             </button>
             <button
               onClick={() => setIsAddingNewSite(false)}
-              className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 px-6 rounded-lg transition-colors"
+              className="bg-muted hover:bg-muted/90 text-muted-foreground font-semibold py-2 px-4 rounded-md transition-colors text-xs"
             >
               취소
             </button>
@@ -201,99 +203,101 @@ export default function SiteSection() {
       )}
 
       {/* 사이트 목록 */}
-      <div className="bg-white rounded-xl border border-slate-200 p-8 shadow-sm">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center">
-            <span className="text-white text-sm">🌐</span>
+      <div className="bg-card rounded-lg border border-border p-6">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+            <span className="text-primary-foreground text-xs">🌐</span>
           </div>
           <div className="flex-1">
-            <h2 className="text-xl font-semibold text-slate-800">등록된 뉴스 소스</h2>
-            <p className="text-sm text-slate-600">총 {sites.length}개 사이트</p>
+            <h2 className="text-base font-semibold text-foreground">등록된 뉴스 소스</h2>
+            <p className="text-xs text-muted-foreground">총 {sites.length}개 사이트</p>
           </div>
         </div>
 
         {sites.length === 0 ? (
-          <div className="text-center py-16 bg-slate-50 rounded-lg border-2 border-dashed border-slate-300">
-            <div className="w-16 h-16 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-slate-500 text-2xl">📰</span>
+          <div className="text-center py-12 bg-muted rounded-md border-2 border-dashed border-muted-foreground/25">
+            <div className="w-12 h-12 bg-muted-foreground/20 rounded-full flex items-center justify-center mx-auto mb-3">
+              <span className="text-muted-foreground text-lg">📰</span>
             </div>
-            <h3 className="text-lg font-semibold text-slate-700 mb-2">
+            <h3 className="text-sm font-semibold text-foreground mb-2">
               등록된 뉴스 소스가 없습니다
             </h3>
-            <p className="text-slate-500 mb-4">새 사이트를 추가하여 뉴스레터를 시작하세요</p>
+            <p className="text-muted-foreground mb-3 text-xs">
+              새 사이트를 추가하여 뉴스레터를 시작하세요
+            </p>
             <button
               onClick={() => setIsAddingNewSite(true)}
-              className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-2 px-3 rounded-md transition-all duration-200 text-xs"
             >
               첫 번째 사이트 추가하기
             </button>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {sites.map((site) => (
               <div
                 key={site.id}
-                className="border border-slate-200 rounded-lg p-6 hover:shadow-md transition-shadow duration-200 bg-slate-50"
+                className="border border-border rounded-md p-4 hover:bg-accent transition-colors duration-200"
               >
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-3">
-                      <h4 className="text-lg font-semibold text-slate-800">{site.name}</h4>
-                      <span className="px-2.5 py-1 rounded-full bg-slate-200 text-slate-700 text-xs font-medium">
+                    <div className="flex items-center gap-2 mb-2">
+                      <h4 className="text-sm font-semibold text-foreground">{site.name}</h4>
+                      <span className="px-2 py-0.5 rounded-full bg-muted text-muted-foreground text-xs font-medium">
                         {site.category}
                       </span>
                       <button
                         onClick={() => toggleSiteStatus(site.id)}
-                        className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+                        className={`px-2 py-0.5 rounded-full text-xs font-medium transition-colors ${
                           site.status === "활성"
-                            ? "bg-green-100 text-green-700 hover:bg-green-200"
-                            : "bg-orange-100 text-orange-700 hover:bg-orange-200"
+                            ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 hover:bg-green-200 dark:hover:bg-green-900/50"
+                            : "bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 hover:bg-orange-200 dark:hover:bg-orange-900/50"
                         }`}
                       >
                         {site.status}
                       </button>
                     </div>
 
-                    <div className="mb-3">
+                    <div className="mb-2">
                       <a
                         href={site.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-600 hover:text-blue-700 text-sm font-medium break-all hover:underline"
+                        className="text-primary hover:text-primary/80 text-xs font-medium break-all hover:underline"
                       >
                         {site.url}
                       </a>
                     </div>
 
                     {site.description && (
-                      <p className="text-slate-600 text-sm mb-4 leading-relaxed">
+                      <p className="text-muted-foreground text-xs mb-3 leading-relaxed">
                         {site.description}
                       </p>
                     )}
 
-                    <div className="flex items-center gap-6 text-sm text-slate-500">
+                    <div className="flex items-center gap-4 text-xs text-muted-foreground">
                       <div className="flex items-center gap-1">
-                        <span className="w-2 h-2 bg-slate-400 rounded-full"></span>
+                        <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full"></span>
                         마지막 수집: {site.lastCrawled}
                       </div>
                       <div className="flex items-center gap-1">
-                        <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
+                        <span className="w-1.5 h-1.5 bg-primary rounded-full"></span>
                         수집된 기사: {site.articlesCount}개
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex gap-2 ml-6">
+                  <div className="flex gap-2 ml-4">
                     <button
                       onClick={() => handleTestCrawl(site.id)}
-                      className="px-4 py-2 rounded-lg bg-blue-100 text-blue-700 text-sm font-medium hover:bg-blue-200 transition-colors"
+                      className="px-3 py-1.5 rounded-md bg-primary/10 text-primary text-xs font-medium hover:bg-primary/20 transition-colors"
                       title="연결 상태 테스트"
                     >
                       테스트
                     </button>
                     <button
                       onClick={() => handleDeleteSite(site.id)}
-                      className="px-4 py-2 rounded-lg bg-red-100 text-red-700 text-sm font-medium hover:bg-red-200 transition-colors"
+                      className="px-3 py-1.5 rounded-md bg-destructive/10 text-destructive text-xs font-medium hover:bg-destructive/20 transition-colors"
                       title="사이트 삭제"
                     >
                       삭제
@@ -307,25 +311,25 @@ export default function SiteSection() {
       </div>
 
       {/* 도움말 */}
-      <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
-        <h3 className="text-blue-800 text-lg font-semibold mb-3 flex items-center gap-2">
+      <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
+        <h3 className="text-primary text-sm font-semibold mb-2 flex items-center gap-2">
           💡 사용 팁
         </h3>
-        <ul className="text-blue-700 text-sm space-y-2">
+        <ul className="text-primary/80 text-xs space-y-1">
           <li className="flex items-start gap-2">
-            <span className="text-blue-500 mt-1">•</span>
+            <span className="text-primary/60 mt-0.5">•</span>
             RSS 피드가 있는 사이트를 추가하면 더 정확한 수집이 가능합니다
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-blue-500 mt-1">•</span>
+            <span className="text-primary/60 mt-0.5">•</span>
             비활성 상태의 사이트는 뉴스 수집에서 제외됩니다
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-blue-500 mt-1">•</span>
+            <span className="text-primary/60 mt-0.5">•</span>
             테스트 버튼으로 사이트 연결 상태를 확인할 수 있습니다
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-blue-500 mt-1">•</span>
+            <span className="text-primary/60 mt-0.5">•</span>
             카테고리별로 사이트를 분류하여 관리하세요
           </li>
         </ul>

@@ -162,50 +162,35 @@ export default function TemplateSection() {
     }
   };
 
-  const getTemplateGradient = (templateName: string) => {
-    switch (templateName) {
-      case "Simple":
-        return "from-blue-500 to-cyan-600";
-      case "Promotional":
-        return "from-green-500 to-emerald-600";
-      case "Transactional":
-        return "from-purple-500 to-pink-600";
-      case "Newsletter":
-        return "from-orange-500 to-red-600";
-      default:
-        return "from-slate-500 to-gray-600";
-    }
-  };
-
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* 헤더 섹션 */}
-      <div className="border-b border-slate-200 pb-6">
-        <h1 className="text-3xl font-bold text-slate-900 mb-2">이메일 템플릿</h1>
-        <p className="text-slate-600">
+      <div className="border-b border-border pb-4">
+        <h1 className="text-lg font-bold text-foreground mb-1">이메일 템플릿</h1>
+        <p className="text-muted-foreground text-xs">
           다양한 목적에 맞는 이메일 템플릿을 선택하고 미리보기로 확인하세요
         </p>
       </div>
 
       {/* 템플릿 그리드 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {templates.map((template) => (
           <div
             key={template.name}
-            className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer group hover:border-slate-300"
+            className="bg-card rounded-lg border border-border p-4 hover:bg-accent transition-all duration-200 cursor-pointer group"
             onClick={() => handlePreview(template.name, template.component)}
           >
-            <div className="flex items-start gap-4">
-              <div
-                className={`w-12 h-12 bg-gradient-to-r ${getTemplateGradient(template.name)} rounded-xl flex items-center justify-center shadow-sm`}
-              >
-                <span className="text-white text-lg">{getTemplateIcon(template.name)}</span>
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                <span className="text-primary-foreground text-sm">
+                  {getTemplateIcon(template.name)}
+                </span>
               </div>
               <div className="flex-1">
-                <h3 className="text-xl font-semibold text-slate-800 mb-2 group-hover:text-slate-900 transition-colors">
+                <h3 className="text-sm font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">
                   {template.name} Template
                 </h3>
-                <p className="text-sm text-slate-600 mb-4 leading-relaxed">
+                <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
                   {template.name === "Simple" && "기본적인 알림 및 메시지 전달용 템플릿입니다."}
                   {template.name === "Promotional" &&
                     "제품 또는 서비스 프로모션에 적합한 템플릿입니다."}
@@ -219,7 +204,7 @@ export default function TemplateSection() {
                     e.stopPropagation();
                     handlePreview(template.name, template.component);
                   }}
-                  className={`bg-gradient-to-r ${getTemplateGradient(template.name)} hover:scale-[1.02] text-white font-semibold py-2.5 px-6 rounded-lg transition-all duration-200 text-sm shadow-md hover:shadow-lg active:scale-[0.98]`}
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-1.5 px-4 rounded-md transition-all duration-200 text-xs"
                 >
                   미리보기
                 </button>
@@ -231,20 +216,20 @@ export default function TemplateSection() {
 
       {/* 미리보기 섹션 */}
       {selectedTemplate && previewHtml && (
-        <div className="bg-white rounded-xl border border-slate-200 p-8 shadow-sm">
-          <div className="flex items-center gap-3 mb-6">
-            <div
-              className={`w-8 h-8 bg-gradient-to-r ${getTemplateGradient(selectedTemplate)} rounded-full flex items-center justify-center`}
-            >
-              <span className="text-white text-sm">{getTemplateIcon(selectedTemplate)}</span>
+        <div className="bg-card rounded-lg border border-border p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+              <span className="text-primary-foreground text-xs">
+                {getTemplateIcon(selectedTemplate)}
+              </span>
             </div>
-            <h3 className="text-xl font-semibold text-slate-800">
+            <h3 className="text-base font-semibold text-foreground">
               {selectedTemplate} Template 미리보기
             </h3>
           </div>
 
-          <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
-            <div className="w-full h-[600px] bg-white rounded-md overflow-hidden shadow-sm border border-slate-200">
+          <div className="bg-muted rounded-md p-3 border border-border">
+            <div className="w-full h-[500px] bg-card rounded-sm overflow-hidden border border-border">
               <iframe
                 srcDoc={previewHtml}
                 title={`${selectedTemplate} Preview`}
@@ -253,13 +238,13 @@ export default function TemplateSection() {
             </div>
           </div>
 
-          <div className="mt-6 flex justify-center">
+          <div className="mt-4 flex justify-center">
             <button
               onClick={() => {
                 setSelectedTemplate(null);
                 setPreviewHtml("");
               }}
-              className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 px-6 rounded-lg transition-colors"
+              className="bg-muted hover:bg-muted/90 text-muted-foreground font-semibold py-2 px-4 rounded-md transition-colors text-xs"
             >
               미리보기 닫기
             </button>
@@ -268,25 +253,25 @@ export default function TemplateSection() {
       )}
 
       {/* 도움말 섹션 */}
-      <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
-        <h3 className="text-blue-800 text-lg font-semibold mb-3 flex items-center gap-2">
+      <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
+        <h3 className="text-primary text-sm font-semibold mb-2 flex items-center gap-2">
           💡 템플릿 사용 가이드
         </h3>
-        <ul className="text-blue-700 text-sm space-y-2">
+        <ul className="text-primary/80 text-xs space-y-1">
           <li className="flex items-start gap-2">
-            <span className="text-blue-500 mt-1">•</span>각 템플릿은 특정 용도에 최적화되어 있으니
-            목적에 맞게 선택하세요
+            <span className="text-primary/60 mt-0.5">•</span>각 템플릿은 특정 용도에 최적화되어
+            있으니 목적에 맞게 선택하세요
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-blue-500 mt-1">•</span>
+            <span className="text-primary/60 mt-0.5">•</span>
             미리보기를 통해 실제 이메일 모습을 확인할 수 있습니다
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-blue-500 mt-1">•</span>
+            <span className="text-primary/60 mt-0.5">•</span>
             템플릿은 모바일과 데스크톱 환경 모두에서 최적화되어 표시됩니다
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-blue-500 mt-1">•</span>
+            <span className="text-primary/60 mt-0.5">•</span>
             Newsletter 템플릿은 GPT 설정과 연동되어 자동 생성됩니다
           </li>
         </ul>

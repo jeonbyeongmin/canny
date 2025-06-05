@@ -19,9 +19,9 @@ export default function GNB() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-slate-200/70 bg-white/95 backdrop-blur-md px-6 py-4 shadow-sm">
-      <div className="flex items-center gap-3 text-slate-900">
-        <div className="size-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 p-1.5 shadow-lg">
+    <header className="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-border bg-card/95 backdrop-blur-md px-6 py-3 shadow-sm">
+      <div className="flex items-center gap-3 text-foreground">
+        <div className="size-7 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 p-1.5 shadow-lg">
           <svg
             viewBox="0 0 48 48"
             fill="none"
@@ -48,7 +48,7 @@ export default function GNB() {
           </svg>
         </div>
         <Link href="/" className="flex items-center">
-          <h1 className="text-slate-900 text-xl font-bold leading-tight tracking-tight hover:text-blue-600 transition-colors">
+          <h1 className="text-foreground text-lg font-bold leading-tight tracking-tight hover:text-primary transition-colors">
             Newsify
           </h1>
         </Link>
@@ -58,20 +58,20 @@ export default function GNB() {
         <nav className="flex items-center gap-6">
           <Link
             href="/"
-            className={`text-sm font-medium leading-normal transition-colors ${
+            className={`text-xs font-medium leading-normal transition-colors ${
               pathname === "/"
-                ? "text-blue-600 font-semibold"
-                : "text-slate-600 hover:text-blue-600"
+                ? "text-primary font-semibold"
+                : "text-muted-foreground hover:text-primary"
             }`}
           >
             대시보드
           </Link>
           <Link
             href="/settings"
-            className={`text-sm font-medium leading-normal transition-colors ${
+            className={`text-xs font-medium leading-normal transition-colors ${
               pathname.startsWith("/settings")
-                ? "text-blue-600 font-semibold"
-                : "text-slate-600 hover:text-blue-600"
+                ? "text-primary font-semibold"
+                : "text-muted-foreground hover:text-primary"
             }`}
           >
             설정
@@ -80,20 +80,20 @@ export default function GNB() {
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Avatar className="cursor-pointer hover:ring-2 hover:ring-blue-500 hover:ring-opacity-50 transition-all">
+            <Avatar className="cursor-pointer hover:ring-2 hover:ring-primary hover:ring-opacity-50 transition-all size-8">
               <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-              <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white">
+              <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-xs">
                 U
               </AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
-            <DropdownMenuLabel>내 계정</DropdownMenuLabel>
+            <DropdownMenuLabel className="text-xs">내 계정</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
+            <DropdownMenuItem asChild className="text-xs">
               <Link href="/settings">설정</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className="text-red-600">로그아웃</DropdownMenuItem>
+            <DropdownMenuItem className="text-red-600 text-xs">로그아웃</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

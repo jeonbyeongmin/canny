@@ -17,7 +17,7 @@ Project Context
 
 - Framework: Next.js (App Router)
 - Language: TypeScript
-- Styling: Tailwind CSS
+- Styling: Tailwind CSS, Shadcn UI
 - State Management: React hooks, Zustand, tanstack-query
 - Testing: Vitest
 - Linting & Formatting: ESLint, Prettier

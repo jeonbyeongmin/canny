@@ -48,12 +48,12 @@ const SettingsSidebar = () => {
   ];
 
   return (
-    <div className="w-72 flex-shrink-0">
-      <div className="bg-white/70 backdrop-blur-md rounded-2xl shadow-lg border border-slate-200/50 p-6 sticky top-24">
-        <div className="flex flex-col gap-6">
-          <div className="border-b border-slate-200 pb-4">
-            <h2 className="text-lg font-semibold text-slate-800 mb-1">설정</h2>
-            <p className="text-sm text-slate-500">뉴스레터와 시스템 설정을 관리하세요</p>
+    <div className="w-64 flex-shrink-0">
+      <div className="bg-card/70 backdrop-blur-md rounded-2xl shadow-lg border border-border p-5 sticky top-20">
+        <div className="flex flex-col gap-5">
+          <div className="border-b border-border pb-3">
+            <h2 className="text-base font-semibold text-foreground mb-1">설정</h2>
+            <p className="text-xs text-muted-foreground">뉴스레터와 시스템 설정을 관리하세요</p>
           </div>
           <div className="flex flex-col gap-1">
             {menuItems.map((item) => (

@@ -25,39 +25,39 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+    <html lang="ko" className="dark">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased text-sm`}>
         <div
-          className="relative flex size-full min-h-screen flex-col bg-gradient-to-br from-slate-50 to-blue-50 group/design-root overflow-x-hidden"
+          className="relative flex size-full min-h-screen flex-col bg-background text-foreground group/design-root overflow-x-hidden"
           style={{ fontFamily: 'Inter, "Noto Sans KR", sans-serif' }}
         >
           <div className="layout-container flex h-full grow flex-col">
             <GNB />
             <main className="flex-1">{children}</main>
-            <footer className="flex justify-center border-t border-slate-200 bg-white/80 backdrop-blur-sm">
+            <footer className="flex justify-center border-t border-border bg-card/80 backdrop-blur-sm">
               <div className="flex max-w-[960px] flex-1 flex-col">
                 <footer className="flex flex-col gap-6 px-5 py-8 text-center @container">
                   <div className="flex flex-wrap items-center justify-center gap-6 @[480px]:flex-row @[480px]:justify-around">
                     <a
-                      className="text-slate-600 text-sm font-medium leading-normal min-w-40 hover:text-blue-600 transition-colors"
+                      className="text-muted-foreground text-xs font-medium leading-normal min-w-40 hover:text-primary transition-colors"
                       href="#"
                     >
                       서비스 약관
                     </a>
                     <a
-                      className="text-slate-600 text-sm font-medium leading-normal min-w-40 hover:text-blue-600 transition-colors"
+                      className="text-muted-foreground text-xs font-medium leading-normal min-w-40 hover:text-primary transition-colors"
                       href="#"
                     >
                       개인정보처리방침
                     </a>
                     <a
-                      className="text-slate-600 text-sm font-medium leading-normal min-w-40 hover:text-blue-600 transition-colors"
+                      className="text-muted-foreground text-xs font-medium leading-normal min-w-40 hover:text-primary transition-colors"
                       href="#"
                     >
                       고객지원
                     </a>
                   </div>
-                  <p className="text-slate-500 text-xs font-normal leading-normal">
+                  <p className="text-muted-foreground text-xs font-normal leading-normal">
                     © 2024 Newsify. All rights reserved.
                   </p>
                 </footer>
