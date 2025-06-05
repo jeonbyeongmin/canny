@@ -2,6 +2,19 @@
 
 import React, { useState } from "react";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+
 export default function GptSection() {
   const [apiKey, setApiKey] = useState("");
   const [selectedModel, setSelectedModel] = useState("gpt-4");
@@ -59,14 +72,14 @@ export default function GptSection() {
 
         <div className="space-y-3">
           <div className="space-y-2">
-            <label className="block text-xs font-medium text-foreground">OpenAI API 키</label>
+            <Label className="text-xs font-medium">OpenAI API 키</Label>
             <div className="relative">
-              <input
+              <Input
                 type={isApiKeyVisible ? "text" : "password"}
                 placeholder="sk-..."
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
-                className="w-full h-9 px-3 pr-10 rounded-md border border-border focus:ring-2 focus:ring-ring focus:border-ring transition-all duration-200 font-mono text-xs bg-background text-foreground"
+                className="h-9 pr-10 font-mono text-xs"
               />
               <button
                 type="button"
@@ -82,12 +95,13 @@ export default function GptSection() {
           </div>
 
           <div className="flex gap-2 pt-3">
-            <button
+            <Button
               onClick={handleTestConnection}
-              className="bg-muted hover:bg-muted/90 text-muted-foreground font-semibold py-2 px-4 rounded-md transition-colors text-xs"
+              variant="outline"
+              className="font-semibold py-2 px-4 rounded-md transition-colors text-xs"
             >
               연결 테스트
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -103,18 +117,19 @@ export default function GptSection() {
 
         <div className="space-y-4">
           <div className="space-y-2">
-            <label className="block text-xs font-medium text-foreground">GPT 모델 선택</label>
-            <select
-              value={selectedModel}
-              onChange={(e) => setSelectedModel(e.target.value)}
-              className="w-full h-9 px-3 rounded-md border border-border focus:ring-2 focus:ring-ring focus:border-ring transition-all duration-200 bg-background text-foreground text-xs"
-            >
-              {models.map((model) => (
-                <option key={model.value} value={model.value}>
-                  {model.label}
-                </option>
-              ))}
-            </select>
+            <Label className="text-xs font-medium">GPT 모델 선택</Label>
+            <Select value={selectedModel} onValueChange={setSelectedModel}>
+              <SelectTrigger className="h-9 text-xs">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {models.map((model) => (
+                  <SelectItem key={model.value} value={model.value} className="text-xs">
+                    {model.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             <p className="text-xs text-muted-foreground">
               GPT-4는 더 정확하지만 비용이 높고, GPT-3.5 Turbo는 빠르고 저렴합니다.
             </p>
@@ -122,17 +137,14 @@ export default function GptSection() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="block text-xs font-medium text-foreground">
-                Temperature: {temperature}
-              </label>
-              <input
-                type="range"
-                min="0"
-                max="2"
-                step="0.1"
-                value={temperature}
-                onChange={(e) => setTemperature(parseFloat(e.target.value))}
-                className="w-full h-2 bg-muted rounded-lg cursor-pointer accent-primary"
+              <Label className="text-xs font-medium">Temperature: {temperature}</Label>
+              <Slider
+                value={[temperature]}
+                onValueChange={(value) => setTemperature(value[0])}
+                min={0}
+                max={2}
+                step={0.1}
+                className="w-full"
               />
               <p className="text-xs text-muted-foreground">
                 창의성 수준 (0.0: 일관성, 2.0: 창의성)
@@ -140,17 +152,14 @@ export default function GptSection() {
             </div>
 
             <div className="space-y-2">
-              <label className="block text-xs font-medium text-foreground">
-                Max Tokens: {maxTokens}
-              </label>
-              <input
-                type="range"
-                min="100"
-                max="4000"
-                step="100"
-                value={maxTokens}
-                onChange={(e) => setMaxTokens(parseInt(e.target.value))}
-                className="w-full h-2 bg-muted rounded-lg cursor-pointer accent-primary"
+              <Label className="text-xs font-medium">Max Tokens: {maxTokens}</Label>
+              <Slider
+                value={[maxTokens]}
+                onValueChange={(value) => setMaxTokens(value[0])}
+                min={100}
+                max={4000}
+                step={100}
+                className="w-full"
               />
               <p className="text-xs text-muted-foreground">응답 최대 길이 (토큰 수)</p>
             </div>
@@ -169,13 +178,13 @@ export default function GptSection() {
 
         <div className="space-y-3">
           <div className="space-y-2">
-            <label className="block text-xs font-medium text-foreground">기본 지침</label>
-            <textarea
+            <Label className="text-xs font-medium">기본 지침</Label>
+            <Textarea
               placeholder="예: 당신은 전문적인 뉴스레터 작성자입니다. 간결하고 흥미로운 방식으로 기술 뉴스를 요약해주세요."
               value={systemPrompt}
               onChange={(e) => setSystemPrompt(e.target.value)}
               rows={4}
-              className="w-full px-3 py-2 rounded-md border border-border focus:ring-2 focus:ring-ring focus:border-ring transition-all duration-200 resize-none bg-background text-foreground text-xs"
+              className="resize-none text-xs"
             />
             <p className="text-xs text-muted-foreground">
               GPT가 뉴스레터 생성 시 따라야 할 기본 지침을 설정하세요.
@@ -211,18 +220,19 @@ export default function GptSection() {
 
       {/* 저장 버튼 */}
       <div className="flex justify-between pt-4 border-t border-border">
-        <button
+        <Button
           onClick={handleReset}
-          className="bg-muted hover:bg-muted/90 text-muted-foreground font-semibold py-2 px-4 rounded-md transition-colors text-xs"
+          variant="outline"
+          className="font-semibold py-2 px-4 rounded-md transition-colors text-xs"
         >
           설정 초기화
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={handleSave}
-          className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-2 px-6 rounded-md transition-all duration-200 text-xs"
+          className="font-semibold py-2 px-6 rounded-md transition-all duration-200 text-xs"
         >
           변경사항 저장
-        </button>
+        </Button>
       </div>
 
       {/* 도움말 */}

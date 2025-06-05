@@ -2,6 +2,18 @@
 
 import React, { useState } from "react";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+
 interface Site {
   id: string;
   url: string;
@@ -116,12 +128,12 @@ export default function SiteSection() {
               뉴스레터에 포함될 뉴스 소스 사이트들을 관리하세요
             </p>
           </div>
-          <button
+          <Button
             onClick={() => setIsAddingNewSite(!isAddingNewSite)}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-2 px-4 rounded-md transition-all duration-200 flex items-center gap-2 text-xs"
+            className="font-semibold py-2 px-4 rounded-md transition-all duration-200 flex items-center gap-2 text-xs"
           >
             <span>+</span>새 사이트 추가
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -137,67 +149,69 @@ export default function SiteSection() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <div className="space-y-2">
-              <label className="block text-xs font-medium text-foreground">사이트 이름</label>
-              <input
+              <Label className="text-xs font-medium">사이트 이름</Label>
+              <Input
                 type="text"
                 placeholder="예: TechCrunch"
                 value={newSiteName}
                 onChange={(e) => setNewSiteName(e.target.value)}
-                className="w-full h-9 px-3 rounded-md border border-border focus:ring-2 focus:ring-ring focus:border-ring transition-all duration-200 bg-background text-foreground text-xs"
+                className="h-9 text-xs"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="block text-xs font-medium text-foreground">카테고리</label>
-              <select
-                value={newSiteCategory}
-                onChange={(e) => setNewSiteCategory(e.target.value)}
-                className="w-full h-9 px-3 rounded-md border border-border focus:ring-2 focus:ring-ring focus:border-ring transition-all duration-200 bg-background text-foreground text-xs"
-              >
-                {categories.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat}
-                  </option>
-                ))}
-              </select>
+              <Label className="text-xs font-medium">카테고리</Label>
+              <Select value={newSiteCategory} onValueChange={setNewSiteCategory}>
+                <SelectTrigger className="h-9 text-xs">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories.map((cat) => (
+                    <SelectItem key={cat} value={cat} className="text-xs">
+                      {cat}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
 
           <div className="space-y-2 mb-4">
-            <label className="block text-xs font-medium text-foreground">사이트 URL</label>
-            <input
+            <Label className="text-xs font-medium">사이트 URL</Label>
+            <Input
               type="url"
               placeholder="https://example.com"
               value={newSiteUrl}
               onChange={(e) => setNewSiteUrl(e.target.value)}
-              className="w-full h-9 px-3 rounded-md border border-border focus:ring-2 focus:ring-ring focus:border-ring transition-all duration-200 bg-background text-foreground text-xs"
+              className="h-9 text-xs"
             />
           </div>
 
           <div className="space-y-2 mb-4">
-            <label className="block text-xs font-medium text-foreground">설명 (선택사항)</label>
-            <textarea
+            <Label className="text-xs font-medium">설명 (선택사항)</Label>
+            <Textarea
               placeholder="이 뉴스 소스에 대한 간단한 설명을 입력하세요"
               value={newSiteDescription}
               onChange={(e) => setNewSiteDescription(e.target.value)}
               rows={3}
-              className="w-full px-3 py-2 rounded-md border border-border focus:ring-2 focus:ring-ring focus:border-ring transition-all duration-200 resize-none bg-background text-foreground text-xs"
+              className="resize-none text-xs"
             />
           </div>
 
           <div className="flex gap-2 pt-3 border-t border-border">
-            <button
+            <Button
               onClick={handleAddSite}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-2 px-4 rounded-md transition-all duration-200 text-xs"
+              className="font-semibold py-2 px-4 rounded-md transition-all duration-200 text-xs"
             >
               추가
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => setIsAddingNewSite(false)}
-              className="bg-muted hover:bg-muted/90 text-muted-foreground font-semibold py-2 px-4 rounded-md transition-colors text-xs"
+              variant="outline"
+              className="font-semibold py-2 px-4 rounded-md transition-colors text-xs"
             >
               취소
-            </button>
+            </Button>
           </div>
         </div>
       )}
@@ -225,12 +239,12 @@ export default function SiteSection() {
             <p className="text-muted-foreground mb-3 text-xs">
               새 사이트를 추가하여 뉴스레터를 시작하세요
             </p>
-            <button
+            <Button
               onClick={() => setIsAddingNewSite(true)}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-2 px-3 rounded-md transition-all duration-200 text-xs"
+              className="font-semibold py-2 px-3 rounded-md transition-all duration-200 text-xs"
             >
               첫 번째 사이트 추가하기
-            </button>
+            </Button>
           </div>
         ) : (
           <div className="space-y-3">
@@ -288,20 +302,24 @@ export default function SiteSection() {
                   </div>
 
                   <div className="flex gap-2 ml-4">
-                    <button
+                    <Button
                       onClick={() => handleTestCrawl(site.id)}
-                      className="px-3 py-1.5 rounded-md bg-primary/10 text-primary text-xs font-medium hover:bg-primary/20 transition-colors"
+                      variant="outline"
+                      size="sm"
+                      className="px-3 py-1.5 rounded-md text-xs font-medium"
                       title="연결 상태 테스트"
                     >
                       테스트
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                       onClick={() => handleDeleteSite(site.id)}
-                      className="px-3 py-1.5 rounded-md bg-destructive/10 text-destructive text-xs font-medium hover:bg-destructive/20 transition-colors"
+                      variant="destructive"
+                      size="sm"
+                      className="px-3 py-1.5 rounded-md text-xs font-medium"
                       title="사이트 삭제"
                     >
                       삭제
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>

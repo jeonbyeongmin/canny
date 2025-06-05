@@ -4,6 +4,7 @@ import { render } from "@react-email/render";
 
 import React, { useState } from "react";
 
+import { Button } from "@/components/ui/button";
 import NewsletterTemplate from "@/email-templates/newsletter-template";
 import PromotionalTemplate from "@/email-templates/promotional-template";
 import SimpleTemplate from "@/email-templates/simple-template";
@@ -199,15 +200,15 @@ export default function TemplateSection() {
                   {template.name === "Newsletter" &&
                     "정기적인 뉴스레터 발송에 적합한 템플릿입니다."}
                 </p>
-                <button
+                <Button
                   onClick={(e) => {
                     e.stopPropagation();
                     handlePreview(template.name, template.component);
                   }}
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-1.5 px-4 rounded-md transition-all duration-200 text-xs"
+                  className="font-semibold py-1.5 px-4 rounded-md transition-all duration-200 text-xs"
                 >
                   미리보기
-                </button>
+                </Button>
               </div>
             </div>
           </div>
@@ -239,15 +240,16 @@ export default function TemplateSection() {
           </div>
 
           <div className="mt-4 flex justify-center">
-            <button
+            <Button
               onClick={() => {
                 setSelectedTemplate(null);
                 setPreviewHtml("");
               }}
-              className="bg-muted hover:bg-muted/90 text-muted-foreground font-semibold py-2 px-4 rounded-md transition-colors text-xs"
+              variant="outline"
+              className="font-semibold py-2 px-4 rounded-md transition-colors text-xs"
             >
               미리보기 닫기
-            </button>
+            </Button>
           </div>
         </div>
       )}

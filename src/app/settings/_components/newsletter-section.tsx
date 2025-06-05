@@ -4,6 +4,16 @@ import { render } from "@react-email/render";
 
 import React, { useState } from "react";
 
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import NewsletterTemplate from "@/email-templates/newsletter-template";
 import PromotionalTemplate from "@/email-templates/promotional-template";
 import SimpleTemplate from "@/email-templates/simple-template";
@@ -202,12 +212,13 @@ export default function NewsletterSection() {
                   </p>
                 </div>
               </div>
-              <button
+              <Button
                 onClick={() => handlePreview(template.name)}
-                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-2 px-3 rounded-md transition-all duration-200 text-xs"
+                className="w-full text-xs"
+                size="sm"
               >
                 미리보기
-              </button>
+              </Button>
             </div>
           ))}
         </div>
@@ -246,17 +257,23 @@ export default function NewsletterSection() {
             </span>
             톤
           </h3>
-          <div className="flex flex-wrap gap-2">
+          <RadioGroup className="flex flex-wrap gap-2" defaultValue="Neutral">
             {["Casual", "Neutral", "Formal"].map((tone) => (
-              <label
-                key={tone}
-                className="flex items-center justify-center px-3 py-2 border border-border rounded-md cursor-pointer hover:border-primary hover:bg-accent transition-all duration-200 has-[:checked]:border-primary has-[:checked]:bg-accent has-[:checked]:text-accent-foreground"
-              >
-                <span className="text-xs font-medium">{tone}</span>
-                <input type="radio" className="sr-only" name="tone" />
-              </label>
+              <div key={tone} className="flex items-center space-x-2">
+                <RadioGroupItem 
+                  value={tone} 
+                  id={`tone-${tone}`}
+                  className="sr-only peer"
+                />
+                <Label
+                  htmlFor={`tone-${tone}`}
+                  className="flex items-center justify-center px-3 py-2 border border-border rounded-md cursor-pointer hover:border-primary hover:bg-accent transition-all duration-200 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-accent peer-data-[state=checked]:text-accent-foreground text-xs font-medium"
+                >
+                  {tone}
+                </Label>
+              </div>
             ))}
-          </div>
+          </RadioGroup>
         </div>
 
         {/* Personality 설정 */}
@@ -267,43 +284,53 @@ export default function NewsletterSection() {
             </span>
             성격
           </h3>
-          <div className="flex flex-wrap gap-2">
+          <RadioGroup className="flex flex-wrap gap-2" defaultValue="Informative">
             {["Informative", "Humorous", "Thoughtful"].map((personality) => (
-              <label
-                key={personality}
-                className="flex items-center justify-center px-3 py-2 border border-border rounded-md cursor-pointer hover:border-primary hover:bg-accent transition-all duration-200 has-[:checked]:border-primary has-[:checked]:bg-accent has-[:checked]:text-accent-foreground"
-              >
-                <span className="text-xs font-medium">{personality}</span>
-                <input type="radio" className="sr-only" name="personality" />
-              </label>
+              <div key={personality} className="flex items-center space-x-2">
+                <RadioGroupItem 
+                  value={personality} 
+                  id={`personality-${personality}`}
+                  className="sr-only peer"
+                />
+                <Label
+                  htmlFor={`personality-${personality}`}
+                  className="flex items-center justify-center px-3 py-2 border border-border rounded-md cursor-pointer hover:border-primary hover:bg-accent transition-all duration-200 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-accent peer-data-[state=checked]:text-accent-foreground text-xs font-medium"
+                >
+                  {personality}
+                </Label>
+              </div>
             ))}
-          </div>
+          </RadioGroup>
         </div>
       </div>
 
       {/* 토픽 선택 */}
       <div className="space-y-3">
-        <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+        <Label className="text-sm font-semibold text-foreground flex items-center gap-2">
           <span className="w-4 h-4 bg-green-100 dark:bg-green-900/30 rounded text-green-600 dark:text-green-400 text-xs flex items-center justify-center">
             📝
           </span>
           주제
-        </h3>
+        </Label>
         <div className="max-w-md">
-          <select className="w-full px-3 py-2 border border-border rounded-md focus:ring-2 focus:ring-ring focus:border-ring transition-all duration-200 bg-background text-foreground text-xs h-9">
-            <option value="">주제를 선택하세요</option>
-            <option value="tech">기술</option>
-            <option value="business">비즈니스</option>
-            <option value="lifestyle">라이프스타일</option>
-          </select>
+          <Select>
+            <SelectTrigger className="h-9 text-xs">
+              <SelectValue placeholder="주제를 선택하세요" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="tech">기술</SelectItem>
+              <SelectItem value="business">비즈니스</SelectItem>
+              <SelectItem value="lifestyle">라이프스타일</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
       {/* 저장 버튼 */}
       <div className="flex justify-end pt-4 border-t border-border">
-        <button className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-2 px-6 rounded-md transition-all duration-200 text-xs">
+        <Button className="text-xs" size="sm">
           설정 저장
-        </button>
+        </Button>
       </div>
     </div>
   );
