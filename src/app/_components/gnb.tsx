@@ -21,7 +21,7 @@ export default function GNB() {
   return (
     <header className="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-border bg-card/95 backdrop-blur-md px-6 py-3 shadow-sm">
       <div className="flex items-center gap-3 text-foreground">
-        <div className="size-7 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 p-1.5 shadow-lg">
+        <div className="size-7 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 p-1.5 ">
           <svg
             viewBox="0 0 48 48"
             fill="none"

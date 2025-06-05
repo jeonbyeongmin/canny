@@ -1,55 +1,58 @@
+import { Button } from "@/components/ui/button";
+
 export default function Home() {
   return (
     <div className="px-40 flex flex-1 justify-center py-5">
       <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
         <div className="@container">
           <div className="@[480px]:p-4">
-            <div
-              className="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[480px]:gap-8 @[480px]:rounded-xl items-center justify-center p-4"
-              style={{
-                backgroundImage:
-                  'linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuCIZHgZqFu4e6Tz0SQw4MXdw-Yn-RIKTOMo8VYmFp7-uGAIaC9pXXK9HWbIVoW0qOzmt6TxzrFF0R9ysAZ0qSLSqn0Z-KmTojucMJGe1v34UDCSI17RDM5nFaJaCM-PPKG4i0HVDGnGhHEf0N1CS5ov_dqoL4Y_VwRqpowPY2O2lDWmrtRNTQK902UkhUaFbn-HDM_ZC_-Ol3k0HWpsSn-moxdOt5YiKLh7bNX7vaeJeEyywHNm0aMtO-WgFPt1suMLM4bmr5_Uj6U")',
-              }}
-            >
-              <div className="flex flex-col gap-2 text-center">
-                <h1 className="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]">
+            <div className="relative flex min-h-[480px] flex-col gap-6 @[480px]:gap-8 @[480px]:rounded items-center justify-center p-4 overflow-hidden">
+              {/* Simple AI Background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800">
+                {/* Floating orbs */}
+                <div className="absolute inset-0 opacity-30">
+                  <div className="absolute top-1/4 left-1/4 w-80 h-80 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl animate-pulse-glow"></div>
+                  <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl animate-pulse-glow animation-delay-75"></div>
+                  <div className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-indigo-400 rounded-full mix-blend-multiply filter blur-xl animate-pulse-glow animation-delay-150"></div>
+                </div>
+                {/* Shimmer effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer"></div>
+              </div>
+              {/* Content */}
+              <div className="relative z-10 flex flex-col gap-6 text-center">
+                <h1 className="text-white text-4xl md:text-5xl font-medium leading-tight tracking-tight">
                   Your Personalized Newsletter Experience
                 </h1>
-                <h2 className="text-white text-sm font-normal leading-normal @[480px]:text-base @[480px]:font-normal @[480px]:leading-normal">
-                  Discover a new way to stay informed with Newsify. Customize
-                  your news feed, review sites, and integrate with your personal
-                  GPT for a truly unique experience.
-                </h2>
+                <p className="text-white/80 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+                  Discover a new way to stay informed with Newsify. Customize your news feed, review
+                  sites, and integrate with your personal GPT for a truly unique experience.
+                </p>
+                <div className="pt-2">
+                  <Button className="bg-white text-slate-900 hover:bg-white/90 px-8 py-3 font-medium">
+                    Get Started
+                  </Button>
+                </div>
               </div>
-              <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-[#0c7ff2] text-white text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em]">
-                <span className="truncate">Get Started</span>
-              </button>
             </div>
           </div>
         </div>
         <div className="flex flex-col gap-10 px-4 py-10 @container">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-4">
-              <h1 className="text-[#111418] tracking-light text-[32px] font-bold leading-tight @[480px]:text-4xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em] max-w-[720px]">
+              <h1 className=" tracking-light text-[32px] font-bold leading-tight @[480px]:text-4xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em] max-w-[720px]">
                 Key Features
               </h1>
-              <p className="text-[#111418] text-base font-normal leading-normal max-w-[720px]">
-                Explore the powerful features that make Newsify the ultimate
-                newsletter platform.
+              <p className=" text-base font-normal leading-normal max-w-[720px]">
+                Explore the powerful features that make Newsify the ultimate newsletter platform.
               </p>
             </div>
-            <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-[#0c7ff2] text-white text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em] w-fit">
+            <Button className="w-fit">
               <span className="truncate">Learn More</span>
-            </button>
+            </Button>
           </div>
           <div className="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-3 p-0">
-            <div className="flex flex-1 gap-3 rounded-lg border border-[#dbe0e6] bg-white p-4 flex-col">
-              <div
-                className="text-[#111418]"
-                data-icon="Gear"
-                data-size="24px"
-                data-weight="regular"
-              >
+            <div className="flex flex-1 gap-3 rounded border  p-4 flex-col">
+              <div className="" data-icon="Gear" data-size="24px" data-weight="regular">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24px"
@@ -61,23 +64,15 @@ export default function Home() {
                 </svg>
               </div>
               <div className="flex flex-col gap-1">
-                <h2 className="text-[#111418] text-base font-bold leading-tight">
-                  Customization
-                </h2>
-                <p className="text-[#60758a] text-sm font-normal leading-normal">
-                  Tailor your news feed to match your interests. Select topics,
-                  sources, and keywords to receive the news that matters most to
-                  you.
+                <h2 className=" text-base font-bold leading-tight">Customization</h2>
+                <p className="text-muted-foreground text-sm font-normal leading-normal">
+                  Tailor your news feed to match your interests. Select topics, sources, and
+                  keywords to receive the news that matters most to you.
                 </p>
               </div>
             </div>
-            <div className="flex flex-1 gap-3 rounded-lg border border-[#dbe0e6] bg-white p-4 flex-col">
-              <div
-                className="text-[#111418]"
-                data-icon="MagnifyingGlass"
-                data-size="24px"
-                data-weight="regular"
-              >
+            <div className="flex flex-1 gap-3 rounded border  p-4 flex-col">
+              <div className="" data-icon="MagnifyingGlass" data-size="24px" data-weight="regular">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24px"
@@ -89,22 +84,15 @@ export default function Home() {
                 </svg>
               </div>
               <div className="flex flex-col gap-1">
-                <h2 className="text-[#111418] text-base font-bold leading-tight">
-                  Site Review
-                </h2>
-                <p className="text-[#60758a] text-sm font-normal leading-normal">
-                  Easily review and rate news sites to help improve the quality
-                  of your feed. Share your feedback with the community.
+                <h2 className=" text-base font-bold leading-tight">Site Review</h2>
+                <p className="text-muted-foreground text-sm font-normal leading-normal">
+                  Easily review and rate news sites to help improve the quality of your feed. Share
+                  your feedback with the community.
                 </p>
               </div>
             </div>
-            <div className="flex flex-1 gap-3 rounded-lg border border-[#dbe0e6] bg-white p-4 flex-col">
-              <div
-                className="text-[#111418]"
-                data-icon="Robot"
-                data-size="24px"
-                data-weight="regular"
-              >
+            <div className="flex flex-1 gap-3 rounded border  p-4 flex-col">
+              <div className="" data-icon="Robot" data-size="24px" data-weight="regular">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24px"
@@ -116,12 +104,10 @@ export default function Home() {
                 </svg>
               </div>
               <div className="flex flex-col gap-1">
-                <h2 className="text-[#111418] text-base font-bold leading-tight">
-                  GPT Integration
-                </h2>
-                <p className="text-[#60758a] text-sm font-normal leading-normal">
-                  Integrate your personal GPT to summarize articles, answer
-                  questions, and provide deeper insights into the news.
+                <h2 className=" text-base font-bold leading-tight">GPT Integration</h2>
+                <p className="text-muted-foreground text-sm font-normal leading-normal">
+                  Integrate your personal GPT to summarize articles, answer questions, and provide
+                  deeper insights into the news.
                 </p>
               </div>
             </div>
@@ -130,19 +116,18 @@ export default function Home() {
         <div className="@container">
           <div className="flex flex-col justify-end gap-6 px-4 py-10 @[480px]:gap-8 @[480px]:px-10 @[480px]:py-20">
             <div className="flex flex-col gap-2 text-center">
-              <h1 className="text-[#111418] tracking-light text-[32px] font-bold leading-tight @[480px]:text-4xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em] max-w-[720px]">
+              <h1 className="tracking-light text-[32px] font-bold leading-tight @[480px]:text-4xl @[480px]:font-black @[480px]:leading-tight @[480px]:tracking-[-0.033em]">
                 Ready to Dive In?
               </h1>
-              <p className="text-[#111418] text-base font-normal leading-normal max-w-[720px">
-                Sign up today and start exploring the world of personalized news
-                with Newsify.
+              <p className="text-base font-normal leading-normal ">
+                Sign up today and start exploring the world of personalized news with Newsify.
               </p>
             </div>
             <div className="flex flex-1 justify-center">
               <div className="flex justify-center">
-                <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 @[480px]:h-12 @[480px]:px-5 bg-[#0c7ff2] text-white text-sm font-bold leading-normal tracking-[0.015em] @[480px]:text-base @[480px]:font-bold @[480px]:leading-normal @[480px]:tracking-[0.015em] grow">
+                <Button>
                   <span className="truncate">Get Started</span>
-                </button>
+                </Button>
               </div>
             </div>
           </div>
