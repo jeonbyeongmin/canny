@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,96 +19,121 @@ interface Site {
   url: string;
   name: string;
   category: string;
-  status: "활성" | "비활성";
-  lastCrawled: string;
+  status: "active" | "inactive";
+  lastCrawled?: string;
   articlesCount: number;
   description?: string;
 }
 
 export default function SiteSection() {
-  const [sites, setSites] = useState<Site[]>([
-    {
-      id: "1",
-      url: "https://techcrunch.com",
-      name: "TechCrunch",
-      category: "기술",
-      status: "활성",
-      lastCrawled: "2024년 5월 29일 14:30",
-      articlesCount: 156,
-      description: "기술 스타트업 및 벤처 투자 소식",
-    },
-    {
-      id: "2",
-      url: "https://www.nytimes.com/section/technology",
-      name: "The New York Times - Tech",
-      category: "기술",
-      status: "활성",
-      lastCrawled: "2024년 5월 29일 14:25",
-      articlesCount: 89,
-      description: "글로벌 기술 트렌드와 분석",
-    },
-    {
-      id: "3",
-      url: "https://www.wired.com",
-      name: "WIRED",
-      category: "기술",
-      status: "비활성",
-      lastCrawled: "2024년 5월 28일 16:45",
-      articlesCount: 203,
-      description: "디지털 문화와 미래 기술",
-    },
-    {
-      id: "4",
-      url: "https://www.theverge.com",
-      name: "The Verge",
-      category: "기술",
-      status: "활성",
-      lastCrawled: "2024년 5월 29일 14:20",
-      articlesCount: 312,
-      description: "소비자 기술과 디지털 라이프스타일",
-    },
-  ]);
-
+  const [sites, setSites] = useState<Site[]>([]);
   const [newSiteUrl, setNewSiteUrl] = useState("");
   const [newSiteName, setNewSiteName] = useState("");
   const [newSiteCategory, setNewSiteCategory] = useState("기술");
   const [newSiteDescription, setNewSiteDescription] = useState("");
   const [isAddingNewSite, setIsAddingNewSite] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAdding, setIsAdding] = useState(false);
 
   const categories = ["기술", "비즈니스", "사회", "문화", "스포츠", "기타"];
 
-  const handleAddSite = () => {
-    if (newSiteUrl.trim() === "" || newSiteName.trim() === "") return;
-
-    const newSite: Site = {
-      id: (sites.length + 1).toString(),
-      url: newSiteUrl,
-      name: newSiteName,
-      category: newSiteCategory,
-      status: "활성",
-      lastCrawled: "아직 없음",
-      articlesCount: 0,
-      description: newSiteDescription,
+  // 사이트 목록 로드
+  useEffect(() => {
+    const loadSites = async () => {
+      try {
+        const response = await fetch("/api/sites");
+        if (response.ok) {
+          const data = await response.json();
+          setSites(data);
+        }
+      } catch (error) {
+        console.error("사이트 로드 오류:", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
-    setSites([...sites, newSite]);
-    setNewSiteUrl("");
-    setNewSiteName("");
-    setNewSiteCategory("기술");
-    setNewSiteDescription("");
-    setIsAddingNewSite(false);
+    loadSites();
+  }, []);
+
+  const handleAddSite = async () => {
+    if (newSiteUrl.trim() === "" || newSiteName.trim() === "") return;
+
+    setIsAdding(true);
+    try {
+      const response = await fetch("/api/sites", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          url: newSiteUrl,
+          name: newSiteName,
+          category: newSiteCategory,
+          description: newSiteDescription,
+        }),
+      });
+
+      if (response.ok) {
+        const newSite = await response.json();
+        setSites([...sites, newSite]);
+        setNewSiteUrl("");
+        setNewSiteName("");
+        setNewSiteCategory("기술");
+        setNewSiteDescription("");
+        setIsAddingNewSite(false);
+      } else {
+        const error = await response.json();
+        alert(error.message || "사이트 추가 중 오류가 발생했습니다.");
+      }
+    } catch (error) {
+      console.error("사이트 추가 오류:", error);
+      alert("사이트 추가 중 오류가 발생했습니다.");
+    } finally {
+      setIsAdding(false);
+    }
   };
 
-  const toggleSiteStatus = (id: string) => {
-    setSites(
-      sites.map((site) =>
-        site.id === id ? { ...site, status: site.status === "활성" ? "비활성" : "활성" } : site,
-      ),
-    );
+  const toggleSiteStatus = async (id: string) => {
+    const site = sites.find((s) => s.id === id);
+    if (!site) return;
+
+    try {
+      const newStatus = site.status === "active" ? "inactive" : "active";
+      const response = await fetch(`/api/sites/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      if (response.ok) {
+        setSites(sites.map((s) => (s.id === id ? { ...s, status: newStatus } : s)));
+      }
+    } catch (error) {
+      console.error("사이트 상태 변경 오류:", error);
+    }
   };
 
-  const handleDeleteSite = (id: string) => {
-    setSites(sites.filter((site) => site.id !== id));
+  const handleDeleteSite = async (id: string) => {
+    if (!confirm("정말로 이 사이트를 삭제하시겠습니까?")) return;
+
+    try {
+      const response = await fetch(`/api/sites/${id}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        setSites(sites.filter((site) => site.id !== id));
+      } else {
+        const error = await response.json();
+        alert(error.message || "사이트 삭제 중 오류가 발생했습니다.");
+      }
+    } catch (error) {
+      console.error("사이트 삭제 오류:", error);
+      alert("사이트 삭제 중 오류가 발생했습니다.");
+    }
   };
 
   const handleTestCrawl = (id: string) => {
@@ -116,6 +141,30 @@ export default function SiteSection() {
     console.log(`사이트 ${id} 크롤링 테스트`);
     // 실제로는 API 호출 등을 수행
   };
+
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return "아직 없음";
+    try {
+      return new Date(dateString).toLocaleDateString("ko-KR");
+    } catch {
+      return dateString;
+    }
+  };
+
+  const getStatusText = (status: "active" | "inactive") => {
+    return status === "active" ? "활성" : "비활성";
+  };
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="border-b border-border pb-4">
+          <h1 className="text-lg font-bold text-foreground mb-1">뉴스 소스 관리</h1>
+          <p className="text-muted-foreground text-xs">로딩 중...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -202,8 +251,9 @@ export default function SiteSection() {
             <Button
               onClick={handleAddSite}
               className="font-semibold py-2 px-4 rounded-sm transition-all duration-200 text-xs"
+              disabled={isAdding}
             >
-              추가
+              {isAdding ? "추가 중..." : "추가"}
             </Button>
             <Button
               onClick={() => setIsAddingNewSite(false)}
@@ -263,12 +313,12 @@ export default function SiteSection() {
                       <button
                         onClick={() => toggleSiteStatus(site.id)}
                         className={`px-2 py-0.5 rounded text-xs font-medium transition-colors ${
-                          site.status === "활성"
+                          site.status === "active"
                             ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 hover:bg-green-200 dark:hover:bg-green-900/50"
                             : "bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 hover:bg-orange-200 dark:hover:bg-orange-900/50"
                         }`}
                       >
-                        {site.status}
+                        {getStatusText(site.status)}
                       </button>
                     </div>
 
@@ -292,7 +342,7 @@ export default function SiteSection() {
                     <div className="flex items-center gap-4 text-xs text-muted-foreground">
                       <div className="flex items-center gap-1">
                         <span className="w-1.5 h-1.5 bg-muted-foreground rounded"></span>
-                        마지막 수집: {site.lastCrawled}
+                        마지막 수집: {formatDate(site.lastCrawled)}
                       </div>
                       <div className="flex items-center gap-1">
                         <span className="w-1.5 h-1.5 bg-primary rounded"></span>

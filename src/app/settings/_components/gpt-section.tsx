@@ -17,7 +17,6 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/hooks/use-auth";
-import { updateGptSettings } from "@/lib/auth";
 
 export default function GptSection() {
   const router = useRouter();

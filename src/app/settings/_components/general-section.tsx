@@ -1,6 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -15,13 +17,18 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
+import { useAuth } from "@/hooks/use-auth";
 
 export default function GeneralSection() {
+  const { user } = useAuth();
+  const router = useRouter();
+  const [isSaving, setIsSaving] = useState(false);
+
   // 계정 설정
   const [userInfo, setUserInfo] = useState({
-    name: "홍길동",
-    email: "hong@example.com",
-    company: "테크 스타트업",
+    name: "",
+    email: "",
+    company: "",
     timezone: "Asia/Seoul",
   });
 
@@ -49,6 +56,39 @@ export default function GeneralSection() {
     includeSummary: true,
   });
 
+  // 사용자 데이터 로드
+  useEffect(() => {
+    if (user) {
+      setUserInfo({
+        name: user.name || "",
+        email: user.email || "",
+        company: user.company || "",
+        timezone: user.timezone || "Asia/Seoul",
+      });
+
+      setNotifications({
+        emailNewsletter: user.emailNewsletter ?? true,
+        emailDigest: user.emailDigest ?? false,
+        pushNotifications: user.pushNotifications ?? true,
+        weeklyReport: user.weeklyReport ?? true,
+        systemUpdates: user.systemUpdates ?? true,
+      });
+
+      setLocaleSettings({
+        language: user.language || "ko",
+        dateFormat: user.dateFormat || "YYYY-MM-DD",
+        timeFormat: user.timeFormat || "24h",
+      });
+
+      setNewsletterSettings({
+        frequency: user.newsletterFrequency || "daily",
+        deliveryTime: user.newsletterDeliveryTime || "09:00",
+        maxArticles: user.newsletterMaxArticles || 10,
+        includeSummary: user.newsletterIncludeSummary ?? true,
+      });
+    }
+  }, [user]);
+
   const timezones = [
     { value: "Asia/Seoul", label: "서울 (UTC+9)" },
     { value: "America/New_York", label: "뉴욕 (UTC-5)" },
@@ -62,40 +102,76 @@ export default function GeneralSection() {
     { value: "ja", label: "日本語" },
   ];
 
-  const handleSave = () => {
-    console.log("설정 저장:", {
-      userInfo,
-      notifications,
-      localeSettings,
-      newsletterSettings,
-    });
+  const handleSave = async () => {
+    try {
+      setIsSaving(true);
+
+      const response = await fetch("/api/auth/user/settings", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: userInfo.name,
+          company: userInfo.company,
+          timezone: userInfo.timezone,
+          emailNewsletter: notifications.emailNewsletter,
+          emailDigest: notifications.emailDigest,
+          pushNotifications: notifications.pushNotifications,
+          weeklyReport: notifications.weeklyReport,
+          systemUpdates: notifications.systemUpdates,
+          language: localeSettings.language,
+          dateFormat: localeSettings.dateFormat,
+          timeFormat: localeSettings.timeFormat,
+          newsletterFrequency: newsletterSettings.frequency,
+          newsletterDeliveryTime: newsletterSettings.deliveryTime,
+          newsletterMaxArticles: newsletterSettings.maxArticles,
+          newsletterIncludeSummary: newsletterSettings.includeSummary,
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "설정 저장 중 오류가 발생했습니다.");
+      }
+
+      router.refresh();
+      alert("설정이 저장되었습니다.");
+    } catch (error) {
+      console.error("설정 저장 오류:", error);
+      alert(error instanceof Error ? error.message : "설정 저장 중 오류가 발생했습니다.");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleReset = () => {
-    setUserInfo({
-      name: "",
-      email: "",
-      company: "",
-      timezone: "Asia/Seoul",
-    });
-    setNotifications({
-      emailNewsletter: false,
-      emailDigest: false,
-      pushNotifications: false,
-      weeklyReport: false,
-      systemUpdates: false,
-    });
-    setLocaleSettings({
-      language: "ko",
-      dateFormat: "YYYY-MM-DD",
-      timeFormat: "24h",
-    });
-    setNewsletterSettings({
-      frequency: "daily",
-      deliveryTime: "09:00",
-      maxArticles: 10,
-      includeSummary: true,
-    });
+    if (user) {
+      setUserInfo({
+        name: user.name || "",
+        email: user.email || "",
+        company: "",
+        timezone: "Asia/Seoul",
+      });
+      setNotifications({
+        emailNewsletter: false,
+        emailDigest: false,
+        pushNotifications: false,
+        weeklyReport: false,
+        systemUpdates: false,
+      });
+      setLocaleSettings({
+        language: "ko",
+        dateFormat: "YYYY-MM-DD",
+        timeFormat: "24h",
+      });
+      setNewsletterSettings({
+        frequency: "daily",
+        deliveryTime: "09:00",
+        maxArticles: 10,
+        includeSummary: true,
+      });
+    }
   };
 
   return (
@@ -390,8 +466,9 @@ export default function GeneralSection() {
         <Button
           onClick={handleSave}
           className="font-semibold py-2 px-6 rounded-sm transition-all duration-200 text-xs"
+          disabled={isSaving}
         >
-          변경사항 저장
+          {isSaving ? "저장 중..." : "변경사항 저장"}
         </Button>
       </div>
 

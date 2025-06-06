@@ -31,9 +31,35 @@ model User {
   gptSystemPrompt String?
   gptConfigured Boolean   @default(false)
 
+  // 사용자 개인 정보
+  company       String?
+  timezone      String?   @default("Asia/Seoul")
+  
+  // 알림 설정
+  emailNewsletter     Boolean @default(true)
+  emailDigest         Boolean @default(false)
+  pushNotifications   Boolean @default(true)
+  weeklyReport        Boolean @default(true)
+  systemUpdates       Boolean @default(true)
+  
+  // 언어 및 지역 설정
+  language      String? @default("ko")
+  dateFormat    String? @default("YYYY-MM-DD")
+  timeFormat    String? @default("24h")
+  
+  // 뉴스레터 설정
+  newsletterFrequency   String? @default("daily")
+  newsletterDeliveryTime String? @default("09:00")
+  newsletterMaxArticles Int?    @default(10)
+  newsletterIncludeSummary Boolean @default(true)
+  newsletterTone        String? @default("Neutral")
+  newsletterLength      String? @default("Medium")
+  newsletterFormat      String? @default("Classic")
+
   accounts Account[]
   sessions Session[]
-  newsletters Newsletter[]  // 사용자의 뉴스레터 관계 추가
+  newsletters Newsletter[]
+  sites Site[]
 
   @@map("users")
 }
@@ -98,4 +124,21 @@ model Newsletter {
   updatedAt DateTime @updatedAt
 
   @@map("newsletters")
+}
+
+model Site {
+  id          String   @id @default(cuid())
+  url         String
+  name        String
+  category    String
+  status      String   @default("active") // "active" | "inactive"
+  description String?
+  lastCrawled DateTime?
+  articlesCount Int    @default(0)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("sites")
 }

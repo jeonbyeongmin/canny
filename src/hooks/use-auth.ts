@@ -13,6 +13,31 @@ export interface User {
   gptMaxTokens?: number | null;
   gptSystemPrompt?: string | null;
   gptConfigured?: boolean;
+
+  // 사용자 개인 정보
+  company?: string | null;
+  timezone?: string | null;
+
+  // 알림 설정
+  emailNewsletter?: boolean;
+  emailDigest?: boolean;
+  pushNotifications?: boolean;
+  weeklyReport?: boolean;
+  systemUpdates?: boolean;
+
+  // 언어 및 지역 설정
+  language?: string | null;
+  dateFormat?: string | null;
+  timeFormat?: string | null;
+
+  // 뉴스레터 설정
+  newsletterFrequency?: string | null;
+  newsletterDeliveryTime?: string | null;
+  newsletterMaxArticles?: number | null;
+  newsletterIncludeSummary?: boolean;
+  newsletterTone?: string | null;
+  newsletterLength?: string | null;
+  newsletterFormat?: string | null;
 }
 
 interface LoginData {

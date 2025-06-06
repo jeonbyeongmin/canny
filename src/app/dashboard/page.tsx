@@ -89,17 +89,29 @@ export default async function DashboardPage() {
           {user.gptConfigured && (
             <div className="bg-card border rounded-lg p-6 mb-8">
               <h2 className="text-lg font-semibold mb-4">AI 기능</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="border rounded-lg p-4 hover:bg-accent/50 transition-colors">
                   <h3 className="font-medium mb-2">뉴스레터 생성</h3>
                   <p className="text-sm text-muted-foreground mb-3">
-                    AI를 활용하여 개인화된 뉴스레터를 자동으로 생성해보세요.
+                    AI를 활용하여 기본 뉴스레터를 빠르게 생성해보세요.
                   </p>
                   <Link
                     href="/newsletter/create"
                     className="text-primary text-sm font-medium hover:underline"
                   >
                     뉴스레터 생성하기 →
+                  </Link>
+                </div>
+                <div className="border rounded-lg p-4 hover:bg-accent/50 transition-colors">
+                  <h3 className="font-medium mb-2">🎯 개인화 뉴스레터</h3>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    당신의 설정과 관심사를 바탕으로 맞춤형 뉴스레터를 생성합니다.
+                  </p>
+                  <Link
+                    href="/newsletter/personalized"
+                    className="text-primary text-sm font-medium hover:underline"
+                  >
+                    개인화 생성하기 →
                   </Link>
                 </div>
                 <div className="border rounded-lg p-4 hover:bg-accent/50 transition-colors">

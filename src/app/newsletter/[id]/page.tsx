@@ -9,18 +9,18 @@ import { requireGptConfig } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 interface NewsletterPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export default async function NewsletterPage({ params }: NewsletterPageProps) {
   // GPT 설정이 필요한 페이지
   await requireGptConfig();
 
-  // 뉴스레터 조회
+  const { id } = await params;
   const newsletter = await prisma.newsletter.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: { user: true },
   });
 
@@ -76,7 +76,7 @@ export default async function NewsletterPage({ params }: NewsletterPageProps) {
       </div>
 
       {/* 뉴스레터 분석 컴포넌트 */}
-      <NewsletterAnalysis newsletterId={params.id} />
+      <NewsletterAnalysis newsletterId={id} />
     </div>
   );
 }
