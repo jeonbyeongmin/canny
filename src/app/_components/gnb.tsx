@@ -3,9 +3,10 @@
 import React from "react";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,9 +15,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/contexts/auth-context";
 
 export default function GNB() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, logout, isLoading } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+    router.push("/");
+  };
 
   return (
     <header className="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-border bg-card/95 backdrop-blur-md px-6 py-3 shadow-sm">
@@ -66,36 +75,58 @@ export default function GNB() {
           >
             대시보드
           </Link>
-          <Link
-            href="/settings"
-            className={`text-xs font-medium leading-normal transition-colors ${
-              pathname.startsWith("/settings")
-                ? "text-primary font-semibold"
-                : "text-muted-foreground hover:text-primary"
-            }`}
-          >
-            설정
-          </Link>
+          {user && (
+            <Link
+              href="/settings"
+              className={`text-xs font-medium leading-normal transition-colors ${
+                pathname.startsWith("/settings")
+                  ? "text-primary font-semibold"
+                  : "text-muted-foreground hover:text-primary"
+              }`}
+            >
+              설정
+            </Link>
+          )}
         </nav>
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Avatar className="cursor-pointer hover:ring-2 hover:ring-primary hover:ring-opacity-50 transition-all size-8">
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-              <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-xs">
-                U
-              </AvatarFallback>
-            </Avatar>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56">
-            <DropdownMenuLabel className="text-xs">내 계정</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem asChild className="text-xs">
-              <Link href="/settings">설정</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem className="text-red-600 text-xs">로그아웃</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        {user ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Avatar className="cursor-pointer hover:ring-2 hover:ring-primary hover:ring-opacity-50 transition-all size-8">
+                <AvatarImage src="https://github.com/shadcn.png" alt={user.name} />
+                <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-xs">
+                  {user.name.charAt(0).toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuLabel className="text-xs">
+                <div>
+                  <p className="font-medium">{user.name}</p>
+                  <p className="text-muted-foreground">{user.email}</p>
+                </div>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild className="text-xs">
+                <Link href="/settings">설정</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout} className="text-red-600 text-xs">
+                로그아웃
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          !isLoading && (
+            <div className="flex items-center gap-3">
+              <Button variant="ghost" size="sm" asChild>
+                <Link href="/login">로그인</Link>
+              </Button>
+              <Button size="sm" asChild>
+                <Link href="/signup">회원가입</Link>
+              </Button>
+            </div>
+          )
+        )}
       </div>
     </header>
   );

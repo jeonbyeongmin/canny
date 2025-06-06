@@ -8,7 +8,6 @@ import GearIcon from "./icons/gear-icon";
 import LinkIcon from "./icons/link-icon";
 import NewspaperIcon from "./icons/newspaper-icon";
 import RobotIcon from "./icons/robot-icon";
-import TemplateIcon from "./icons/template-icon";
 import SidebarMenuItem from "./sidebar-menu-item";
 
 const SettingsSidebar = () => {
@@ -32,12 +31,6 @@ const SettingsSidebar = () => {
       icon: <RobotIcon />,
       href: "/settings?menu=gpt",
       key: "gpt",
-    },
-    {
-      label: "템플릿",
-      icon: <TemplateIcon />,
-      href: "/settings?menu=template",
-      key: "template",
     },
     {
       label: "설정",

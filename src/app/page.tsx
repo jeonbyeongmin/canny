@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
@@ -28,8 +30,11 @@ export default function Home() {
                   sites, and integrate with your personal GPT for a truly unique experience.
                 </p>
                 <div className="pt-2">
-                  <Button className="bg-white text-slate-900 hover:bg-white/90 px-8 py-3 font-medium">
-                    Get Started
+                  <Button
+                    className="bg-white text-slate-900 hover:bg-white/90 px-8 py-3 font-medium"
+                    asChild
+                  >
+                    <Link href="/signup">Get Started</Link>
                   </Button>
                 </div>
               </div>
@@ -125,8 +130,10 @@ export default function Home() {
             </div>
             <div className="flex flex-1 justify-center">
               <div className="flex justify-center">
-                <Button>
-                  <span className="truncate">Get Started</span>
+                <Button asChild>
+                  <Link href="/signup">
+                    <span className="truncate">Get Started</span>
+                  </Link>
                 </Button>
               </div>
             </div>
