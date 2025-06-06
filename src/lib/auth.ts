@@ -1,6 +1,8 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+import { cookies } from "next/headers";
+
 import { prisma } from "./prisma";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-super-secret-jwt-key-change-this-in-production";
@@ -153,3 +155,57 @@ export async function updateUserPassword(email: string, newPassword: string): Pr
 
 // Legacy function names for backwards compatibility
 export const comparePassword = verifyPassword;
+
+// Server-side authentication utilities for Server Components
+export async function getCurrentUser(): Promise<User | null> {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("auth-token")?.value;
+
+    if (!token) {
+      return null;
+    }
+
+    const payload = verifyToken(token);
+    if (!payload) {
+      return null;
+    }
+
+    const user = await findUserById(payload.userId);
+    return user;
+  } catch (error) {
+    console.error("Error getting current user:", error);
+    return null;
+  }
+}
+
+export async function requireAuth(): Promise<User> {
+  const user = await getCurrentUser();
+  if (!user) {
+    throw new Error("Unauthorized");
+  }
+  return user;
+}
+
+export async function isAuthenticated(): Promise<boolean> {
+  const user = await getCurrentUser();
+  return !!user;
+}
+
+// Set authentication cookie
+export async function setAuthCookie(token: string): Promise<void> {
+  const cookieStore = await cookies();
+  cookieStore.set("auth-token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 7, // 7 days
+    path: "/",
+  });
+}
+
+// Clear authentication cookie
+export async function clearAuthCookie(): Promise<void> {
+  const cookieStore = await cookies();
+  cookieStore.delete("auth-token");
+}
