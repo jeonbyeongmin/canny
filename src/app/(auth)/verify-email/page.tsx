@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function VerifyEmailPage() {
+function VerifyEmailForm() {
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
   const [message, setMessage] = useState("");
   const searchParams = useSearchParams();
@@ -113,5 +113,13 @@ export default function VerifyEmailPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function VerifyEmailPage() {
+  return (
+    <Suspense fallback={<div>로딩중...</div>}>
+      <VerifyEmailForm />
+    </Suspense>
   );
 }

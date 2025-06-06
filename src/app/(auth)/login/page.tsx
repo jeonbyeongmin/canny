@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 
 import { signIn } from "next-auth/react";
 import Link from "next/link";
@@ -9,16 +9,15 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useAuth } from "@/contexts/auth-context";
+import { useAuth } from "@/hooks/use-auth";
 
-export default function LoginPage() {
+function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { login } = useAuth();
+  const { login, isLoggingIn } = useAuth();
 
   const callbackUrl =
     searchParams.get("redirect") || searchParams.get("callbackUrl") || "/settings";
@@ -26,22 +25,14 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
     setError("");
 
     try {
-      const result = await login(email, password);
-
-      if (result.success) {
-        router.push(callbackUrl);
-      } else {
-        setError(result.error || "로그인에 실패했습니다.");
-      }
+      await login({ email, password });
+      router.push(callbackUrl);
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : "로그인에 실패했습니다.";
       setError(errorMessage);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -123,8 +114,8 @@ export default function LoginPage() {
               />
             </div>
 
-            <Button type="submit" className="w-full h-11" disabled={isLoading}>
-              {isLoading ? "로그인 중..." : "로그인"}
+            <Button type="submit" className="w-full h-11" disabled={isLoggingIn}>
+              {isLoggingIn ? "로그인 중..." : "로그인"}
             </Button>
           </form>
 
@@ -199,5 +190,13 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div>로딩중...</div>}>
+      <LoginForm />
+    </Suspense>
   );
 }

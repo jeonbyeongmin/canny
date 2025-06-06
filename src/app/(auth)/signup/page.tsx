@@ -9,10 +9,10 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useAuth } from "@/contexts/auth-context";
+import { useAuth } from "@/hooks/use-auth";
 
 export default function SignupPage() {
-  const { signup } = useAuth();
+  const { signup, isSigningUp } = useAuth();
   const router = useRouter();
 
   const [formData, setFormData] = useState({
@@ -22,7 +22,6 @@ export default function SignupPage() {
     confirmPassword: "",
   });
 
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [validationErrors, setValidationErrors] = useState({
@@ -95,14 +94,15 @@ export default function SignupPage() {
       return;
     }
 
-    setIsLoading(true);
     try {
-      await signup(formData.name, formData.email, formData.password);
+      await signup({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
       router.push("/");
     } catch (err) {
       setError(err instanceof Error ? err.message : "회원가입 중 오류가 발생했습니다.");
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -239,8 +239,8 @@ export default function SignupPage() {
               </Label>
             </div>
 
-            <Button type="submit" className="w-full h-11" disabled={!isFormValid() || isLoading}>
-              {isLoading ? "회원가입 중..." : "회원가입"}
+            <Button type="submit" className="w-full h-11" disabled={!isFormValid() || isSigningUp}>
+              {isSigningUp ? "회원가입 중..." : "회원가입"}
             </Button>
           </form>
 

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
-import { AuthProvider } from "@/contexts/auth-context";
+import { QueryProvider } from "@/components/query-provider";
 
 import GNB from "./_components/gnb";
 import "./globals.css";
@@ -33,7 +33,7 @@ export default function RootLayout({
           className="relative flex size-full min-h-screen flex-col bg-background text-foreground group/design-root overflow-x-hidden"
           style={{ fontFamily: 'Inter, "Noto Sans KR", sans-serif' }}
         >
-          <AuthProvider>
+          <QueryProvider>
             <div className="layout-container flex h-full grow flex-col">
               <GNB />
               <main className="flex-1">{children}</main>
@@ -67,7 +67,7 @@ export default function RootLayout({
                 </div>
               </footer>
             </div>
-          </AuthProvider>
+          </QueryProvider>
         </div>
       </body>
     </html>

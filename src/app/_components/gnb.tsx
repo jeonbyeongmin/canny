@@ -15,7 +15,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useAuth } from "@/contexts/auth-context";
+import { useAuth } from "@/hooks/use-auth";
 
 export default function GNB() {
   const pathname = usePathname();
@@ -23,8 +23,12 @@ export default function GNB() {
   const { user, logout, isLoading } = useAuth();
 
   const handleLogout = async () => {
-    await logout();
-    router.push("/");
+    try {
+      await logout();
+      router.push("/");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   return (
