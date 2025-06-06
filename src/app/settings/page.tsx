@@ -1,17 +1,17 @@
-"use client";
-
-import React, { Suspense } from "react";
-
-import { useSearchParams } from "next/navigation";
+import React from "react";
 
 import GeneralSection from "@/app/settings/_components/general-section";
 import GptSection from "@/app/settings/_components/gpt-section";
 import NewsletterSection from "@/app/settings/_components/newsletter-section";
 import SiteSection from "@/app/settings/_components/site-section";
 
-function SettingsContent() {
-  const searchParams = useSearchParams();
-  const menu = searchParams.get("menu") || "newsletter";
+interface SettingsPageProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export default async function SettingsPage({ searchParams }: SettingsPageProps) {
+  const resolvedSearchParams = await searchParams;
+  const menu = resolvedSearchParams.menu || "newsletter";
 
   switch (menu) {
     case "newsletter":
@@ -25,12 +25,4 @@ function SettingsContent() {
     default:
       return <NewsletterSection />;
   }
-}
-
-export default function SettingsPage() {
-  return (
-    <Suspense fallback={<div>로딩중...</div>}>
-      <SettingsContent />
-    </Suspense>
-  );
 }
