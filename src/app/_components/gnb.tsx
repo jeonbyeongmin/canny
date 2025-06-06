@@ -72,7 +72,7 @@ export default async function GNB() {
           )}
         </nav>
 
-        <UserMenu user={user} />
+        <UserMenu />
       </div>
     </header>
   );

@@ -16,15 +16,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/use-auth";
-import { User } from "@/lib/auth";
 
-interface UserMenuProps {
-  user: User | null;
-}
-
-export function UserMenu({ user }: UserMenuProps) {
+export function UserMenu() {
   const router = useRouter();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
 
   const handleLogout = async () => {
     try {
