@@ -93,9 +93,14 @@ export default function GNB() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Avatar className="cursor-pointer hover:ring-2 hover:ring-primary hover:ring-opacity-50 transition-all size-8">
-                <AvatarImage src="https://github.com/shadcn.png" alt={user.name} />
-                <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-xs">
-                  {user.name.charAt(0).toUpperCase()}
+                <AvatarImage src="" alt={user.name} />
+                <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-xs font-semibold">
+                  {user.name
+                    .split(" ")
+                    .map((n) => n.charAt(0))
+                    .join("")
+                    .slice(0, 2)
+                    .toUpperCase()}
                 </AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>

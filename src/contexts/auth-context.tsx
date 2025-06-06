@@ -116,7 +116,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // 컴포넌트 마운트 시 인증 상태 확인
   useEffect(() => {
     checkAuth();
-  }, []);
+
+    // 5분마다 인증 상태 자동 확인
+    const interval = setInterval(
+      () => {
+        if (user) {
+          checkAuth();
+        }
+      },
+      5 * 60 * 1000,
+    ); // 5분
+
+    return () => clearInterval(interval);
+  }, [user]);
 
   return (
     <AuthContext.Provider

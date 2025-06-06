@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { comparePassword, findUserByEmail, signToken } from "@/lib/auth";
+import { findUserByEmail, signToken, verifyPassword } from "@/lib/auth";
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 사용자 찾기
-    const user = findUserByEmail(email);
+    const user = await findUserByEmail(email);
     if (!user) {
       return NextResponse.json(
         { error: "이메일 또는 비밀번호가 잘못되었습니다." },
@@ -20,8 +20,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // 소셜 로그인 사용자인지 확인 (password가 없는 경우)
+    if (!user.password) {
+      return NextResponse.json(
+        { error: "소셜 로그인으로 가입된 계정입니다. 소셜 로그인을 이용해주세요." },
+        { status: 401 },
+      );
+    }
+
     // 비밀번호 확인
-    const isPasswordValid = await comparePassword(password, user.password);
+    const isPasswordValid = await verifyPassword(password, user.password);
     if (!isPasswordValid) {
       return NextResponse.json(
         { error: "이메일 또는 비밀번호가 잘못되었습니다." },

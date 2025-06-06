@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { findUserByEmail } from "@/lib/auth";
-
-// TODO: 실제 구현 시 이메일 서비스와 연동해야 합니다.
-// 현재는 기본 구조만 제공합니다.
+import { createPasswordResetToken, findUserByEmail } from "@/lib/auth";
+import { generatePasswordResetEmail, sendEmail } from "@/lib/email";
 
 export async function POST(request: NextRequest) {
   try {
@@ -21,13 +19,30 @@ export async function POST(request: NextRequest) {
     }
 
     // 사용자 확인
-    const user = findUserByEmail(email);
+    const user = await findUserByEmail(email);
 
     // 보안상 사용자 존재 여부와 관계없이 동일한 응답 반환
-    // 실제로는 사용자가 존재할 경우에만 비밀번호 재설정 이메일 발송
     if (user) {
-      // TODO: 실제로는 여기서 비밀번호 재설정 이메일을 발송
-      console.log(`비밀번호 재설정 이메일 발송: ${email}`);
+      try {
+        // 비밀번호 재설정 토큰 생성
+        const resetToken = await createPasswordResetToken(email);
+
+        // 이메일 내용 생성
+        const { html, text } = generatePasswordResetEmail(user.name, resetToken);
+
+        // 이메일 발송
+        await sendEmail({
+          to: email,
+          subject: "[Canny] 비밀번호 재설정 링크",
+          html,
+          text,
+        });
+
+        console.log(`비밀번호 재설정 이메일 발송 성공: ${email}`);
+      } catch (emailError) {
+        console.error("이메일 발송 실패:", emailError);
+        // 이메일 발송 실패 시에도 보안상 동일한 응답 반환
+      }
     }
 
     return NextResponse.json(

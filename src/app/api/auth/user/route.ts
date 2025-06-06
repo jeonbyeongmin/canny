@@ -1,14 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { findUserById, verifyToken } from "@/lib/auth";
+import { auth } from "@/lib/next-auth";
 
 export async function GET(request: NextRequest) {
   try {
-    // 쿠키에서 토큰 가져오기
-    const token = request.cookies.get("auth-token")?.value;
+    // NextAuth.js 세션 확인
+    const session = await auth();
+    if (session?.user) {
+      return NextResponse.json(
+        {
+          user: {
+            id: session.user.id,
+            name: session.user.name,
+            email: session.user.email,
+          },
+        },
+        { status: 200 },
+      );
+    }
 
+    // 기존 JWT 토큰 확인 (fallback)
+    const token = request.cookies.get("auth-token")?.value;
     if (!token) {
-      return NextResponse.json({ error: "인증 토큰이 없습니다." }, { status: 401 });
+      return NextResponse.json({ error: "인증되지 않았습니다." }, { status: 401 });
     }
 
     // 토큰 검증

@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { createUser, findUserByEmail, hashPassword, signToken } from "@/lib/auth";
-
-// TODO: 실제 구현 시 데이터베이스와 연동하고 암호화/해싱을 구현해야 합니다.
-// 현재는 기본 구조만 제공합니다.
+import { createUser, findUserByEmail, signToken } from "@/lib/auth";
+import { generateEmailVerificationEmail, sendEmail } from "@/lib/email";
 
 export async function POST(request: NextRequest) {
   try {
@@ -29,20 +27,35 @@ export async function POST(request: NextRequest) {
     }
 
     // 이미 존재하는 사용자인지 확인
-    const existingUser = findUserByEmail(email);
+    const existingUser = await findUserByEmail(email);
     if (existingUser) {
       return NextResponse.json({ error: "이미 가입된 이메일 주소입니다." }, { status: 400 });
     }
 
-    // 패스워드 해싱
-    const hashedPassword = await hashPassword(password);
+    // 사용자 생성 (패스워드 해싱은 createUser 함수에서 처리)
+    const user = await createUser(name, email, password);
 
-    // 사용자 생성
-    const user = createUser({
-      name,
-      email,
-      password: hashedPassword,
+    // 이메일 인증 토큰 생성
+    const verificationToken = signToken({
+      userId: user.id,
+      email: user.email,
+      name: user.name,
     });
+
+    // 이메일 인증 메일 발송
+    try {
+      const { html, text } = generateEmailVerificationEmail(user.name, verificationToken);
+      await sendEmail({
+        to: user.email,
+        subject: "[Canny] 이메일 인증을 완료해 주세요",
+        html,
+        text,
+      });
+      console.log(`이메일 인증 메일 발송 성공: ${user.email}`);
+    } catch (emailError) {
+      console.error("이메일 인증 메일 발송 실패:", emailError);
+      // 이메일 발송 실패 시에도 회원가입은 진행되지만 알림
+    }
 
     // JWT 토큰 생성
     const token = signToken({
