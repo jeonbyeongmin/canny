@@ -6,6 +6,9 @@ import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useAuth } from "@/contexts/auth-context";
 
 export default function SignupPage() {
@@ -104,102 +107,115 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-2xl p-8 border border-white/20">
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="w-full max-w-md p-8">
+        <div className="bg-card rounded-2xl shadow-xl border border-border p-8">
+          {/* 로고 */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Canny 회원가입
-            </h1>
-            <p className="text-gray-600 mt-2">뉴스레터 관리의 새로운 경험을 시작하세요</p>
+            <div className="size-12 mx-auto rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 p-2.5 mb-4">
+              <svg
+                viewBox="0 0 48 48"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="text-white"
+              >
+                <g clipPath="url(#clip0_6_543)">
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M24 48C37.2548 48 48 37.2548 48 24C48 10.7452 37.2548 0 24 0C10.7452 0 0 10.7452 0 24C0 37.2548 10.7452 48 24 48ZM24 8C19.5817 8 16 11.5817 16 16C16 20.4183 19.5817 24 24 24C28.4183 24 32 20.4183 32 16C32 11.5817 28.4183 8 24 8ZM24 40C18.4772 40 14 35.5228 14 30V28C14 25.7909 15.7909 24 18 24H30C32.2091 24 34 25.7909 34 28V30C34 35.5228 29.5228 40 24 40Z"
+                    fill="currentColor"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_6_543">
+                    <rect width="48" height="48" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
+            <h1 className="text-2xl font-bold text-foreground">회원가입</h1>
+            <p className="text-muted-foreground text-sm mt-2">
+              계정을 생성하여 뉴스레터를 시작하세요
+            </p>
           </div>
 
-          {error && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-red-600 text-sm">{error}</p>
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+          {/* 회원가입 폼 */}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {error && (
+              <div className="bg-destructive/10 border border-destructive/20 text-destructive text-sm p-3 rounded-lg">
+                {error}
+              </div>
+            )}
+            <div className="space-y-2">
+              <Label htmlFor="name" className="text-sm font-medium">
                 이름
-              </label>
-              <input
-                type="text"
+              </Label>
+              <Input
                 id="name"
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 placeholder="이름을 입력하세요"
                 required
+                className="h-11"
               />
             </div>
 
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+            <div className="space-y-2">
+              <Label htmlFor="email" className="text-sm font-medium">
                 이메일
-              </label>
-              <input
-                type="email"
+              </Label>
+              <Input
                 id="email"
                 name="email"
+                type="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
-                  validationErrors.email ? "border-red-300 bg-red-50" : "border-gray-300"
-                }`}
-                placeholder="이메일을 입력하세요"
+                placeholder="you@example.com"
                 required
+                className={`h-11 ${validationErrors.email ? "border-destructive" : ""}`}
               />
               {validationErrors.email && (
-                <p className="mt-1 text-sm text-red-600">{validationErrors.email}</p>
+                <p className="text-sm text-destructive">{validationErrors.email}</p>
               )}
             </div>
 
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-sm font-medium">
                 비밀번호
-              </label>
-              <input
-                type="password"
+              </Label>
+              <Input
                 id="password"
                 name="password"
+                type="password"
                 value={formData.password}
                 onChange={handleInputChange}
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
-                  validationErrors.password ? "border-red-300 bg-red-50" : "border-gray-300"
-                }`}
-                placeholder="비밀번호를 입력하세요"
+                placeholder="••••••••"
                 required
+                className={`h-11 ${validationErrors.password ? "border-destructive" : ""}`}
               />
               {validationErrors.password && (
-                <p className="mt-1 text-sm text-red-600">{validationErrors.password}</p>
+                <p className="text-sm text-destructive">{validationErrors.password}</p>
               )}
             </div>
 
-            <div>
-              <label
-                htmlFor="confirmPassword"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword" className="text-sm font-medium">
                 비밀번호 확인
-              </label>
-              <input
-                type="password"
+              </Label>
+              <Input
                 id="confirmPassword"
                 name="confirmPassword"
+                type="password"
                 value={formData.confirmPassword}
                 onChange={handleInputChange}
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
-                  validationErrors.confirmPassword ? "border-red-300 bg-red-50" : "border-gray-300"
-                }`}
-                placeholder="비밀번호를 다시 입력하세요"
+                placeholder="••••••••"
                 required
+                className={`h-11 ${validationErrors.confirmPassword ? "border-destructive" : ""}`}
               />
               {validationErrors.confirmPassword && (
-                <p className="mt-1 text-sm text-red-600">{validationErrors.confirmPassword}</p>
+                <p className="text-sm text-destructive">{validationErrors.confirmPassword}</p>
               )}
             </div>
 
@@ -209,49 +225,41 @@ export default function SignupPage() {
                 id="acceptTerms"
                 checked={acceptTerms}
                 onChange={(e) => setAcceptTerms(e.target.checked)}
-                className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                className="mt-1 h-4 w-4 text-primary focus:ring-primary border-border rounded"
               />
-              <label htmlFor="acceptTerms" className="text-sm text-gray-700">
-                <Link href="/terms" className="text-blue-600 hover:underline">
+              <Label htmlFor="acceptTerms" className="text-sm text-muted-foreground">
+                <Link href="/terms" className="text-primary hover:underline">
                   이용약관
                 </Link>
                 과{" "}
-                <Link href="/privacy" className="text-blue-600 hover:underline">
+                <Link href="/privacy" className="text-primary hover:underline">
                   개인정보처리방침
                 </Link>
                 에 동의합니다.
-              </label>
+              </Label>
             </div>
 
-            <button
-              type="submit"
-              disabled={!isFormValid() || isLoading}
-              className={`w-full py-3 px-4 rounded-lg font-medium text-white transition-all ${
-                isFormValid() && !isLoading
-                  ? "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-                  : "bg-gray-400 cursor-not-allowed"
-              }`}
-            >
+            <Button type="submit" className="w-full h-11" disabled={!isFormValid() || isLoading}>
               {isLoading ? "회원가입 중..." : "회원가입"}
-            </button>
+            </Button>
           </form>
 
           {/* 소셜 로그인 */}
           <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t border-gray-300" />
+                <span className="w-full border-t border-border" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-2 text-gray-500">또는</span>
+                <span className="bg-card px-2 text-muted-foreground">또는</span>
               </div>
             </div>
 
             <div className="mt-6 grid grid-cols-2 gap-3">
-              <button
-                type="button"
+              <Button
+                variant="outline"
+                className="w-full h-11"
                 onClick={() => signIn("google", { callbackUrl: "/" })}
-                className="w-full inline-flex justify-center items-center py-3 px-4 border border-gray-300 rounded-lg bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
               >
                 <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
                   <path
@@ -272,27 +280,30 @@ export default function SignupPage() {
                   />
                 </svg>
                 Google
-              </button>
-              <button
-                type="button"
+              </Button>
+              <Button
+                variant="outline"
+                className="w-full h-11"
                 onClick={() => signIn("github", { callbackUrl: "/" })}
-                className="w-full inline-flex justify-center items-center py-3 px-4 border border-gray-300 rounded-lg bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
               >
                 <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
                 </svg>
                 GitHub
-              </button>
+              </Button>
             </div>
           </div>
 
+          {/* 링크들 */}
           <div className="mt-6 text-center">
-            <p className="text-gray-600">
-              이미 계정이 있으신가요?{" "}
-              <Link href="/login" className="text-blue-600 hover:underline font-medium">
-                로그인
-              </Link>
-            </p>
+            <div className="pt-4 border-t border-border">
+              <p className="text-sm text-muted-foreground">
+                이미 계정이 있으신가요?{" "}
+                <Link href="/login" className="text-primary hover:underline font-medium">
+                  로그인
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
       </div>
