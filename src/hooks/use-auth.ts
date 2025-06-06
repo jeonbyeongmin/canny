@@ -6,6 +6,13 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  // GPT 설정 필드
+  openaiApiKey?: string | null;
+  gptModel?: string | null;
+  gptTemperature?: number | null;
+  gptMaxTokens?: number | null;
+  gptSystemPrompt?: string | null;
+  gptConfigured?: boolean;
 }
 
 interface LoginData {

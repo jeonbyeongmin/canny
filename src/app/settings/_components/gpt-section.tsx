@@ -1,6 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,14 +16,37 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Textarea } from "@/components/ui/textarea";
+import { useAuth } from "@/hooks/use-auth";
+import { updateGptSettings } from "@/lib/auth";
 
 export default function GptSection() {
+  const router = useRouter();
+  const { user } = useAuth();
   const [apiKey, setApiKey] = useState("");
   const [selectedModel, setSelectedModel] = useState("gpt-4");
   const [temperature, setTemperature] = useState(0.7);
   const [maxTokens, setMaxTokens] = useState(2000);
   const [systemPrompt, setSystemPrompt] = useState("");
   const [isApiKeyVisible, setIsApiKeyVisible] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [testResult, setTestResult] = useState<{ success?: boolean; message?: string } | null>(
+    null,
+  );
+
+  // 사용자의 기존 GPT 설정 로드
+  useEffect(() => {
+    if (user) {
+      if (user.openaiApiKey) setApiKey(user.openaiApiKey);
+      if (user.gptModel) setSelectedModel(user.gptModel);
+      if (user.gptTemperature !== undefined && user.gptTemperature !== null) {
+        setTemperature(user.gptTemperature);
+      }
+      if (user.gptMaxTokens !== undefined && user.gptMaxTokens !== null) {
+        setMaxTokens(user.gptMaxTokens);
+      }
+      if (user.gptSystemPrompt) setSystemPrompt(user.gptSystemPrompt);
+    }
+  }, [user]);
 
   const models = [
     { value: "gpt-4", label: "GPT-4" },
@@ -29,18 +54,77 @@ export default function GptSection() {
     { value: "gpt-3.5-turbo", label: "GPT-3.5 Turbo" },
   ];
 
-  const handleSave = () => {
-    console.log("GPT 설정 저장:", {
-      apiKey,
-      selectedModel,
-      temperature,
-      maxTokens,
-      systemPrompt,
-    });
+  const handleSave = async () => {
+    try {
+      setIsSaving(true);
+
+      // API 키가 비어있는지 확인
+      if (!apiKey || apiKey.trim() === "") {
+        alert("OpenAI API 키를 입력해주세요.");
+        return;
+      }
+
+      // 서버에 설정 저장 요청
+      const response = await fetch("/api/auth/user/gpt-settings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          openaiApiKey: apiKey,
+          gptModel: selectedModel,
+          gptTemperature: temperature,
+          gptMaxTokens: maxTokens,
+          gptSystemPrompt: systemPrompt,
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "설정 저장 중 오류가 발생했습니다.");
+      }
+
+      // 성공적으로 저장되면 페이지 새로고침 또는 리다이렉트
+      router.refresh();
+      alert("GPT 설정이 저장되었습니다.");
+    } catch (error) {
+      console.error("GPT 설정 저장 오류:", error);
+      alert(
+        `저장 실패: ${error instanceof Error ? error.message : "알 수 없는 오류가 발생했습니다."}`,
+      );
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleTestConnection = async () => {
-    console.log("API 연결 테스트");
+    // API 키 검증
+    if (!apiKey || apiKey.trim() === "") {
+      setTestResult({ success: false, message: "API 키를 입력해주세요." });
+      return;
+    }
+
+    try {
+      setTestResult(null);
+      const response = await fetch("/api/auth/user/test-openai", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ apiKey }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setTestResult({ success: true, message: "OpenAI API 연결 테스트 성공!" });
+      } else {
+        setTestResult({ success: false, message: data.message || "API 연결 테스트 실패" });
+      }
+    } catch (error) {
+      console.error("API 연결 테스트 오류:", error);
+      setTestResult({ success: false, message: "API 연결 테스트 중 오류가 발생했습니다." });
+    }
   };
 
   const handleReset = () => {
@@ -49,6 +133,7 @@ export default function GptSection() {
     setTemperature(0.7);
     setMaxTokens(2000);
     setSystemPrompt("");
+    setTestResult(null);
   };
 
   return (
@@ -103,6 +188,14 @@ export default function GptSection() {
               연결 테스트
             </Button>
           </div>
+
+          {testResult && (
+            <div
+              className={`mt-4 p-3 rounded-md text-xs ${testResult.success ? "bg-green-50 text-green-800" : "bg-red-50 text-red-800"}`}
+            >
+              {testResult.message}
+            </div>
+          )}
         </div>
       </div>
 
@@ -230,8 +323,9 @@ export default function GptSection() {
         <Button
           onClick={handleSave}
           className="font-semibold py-2 px-6 rounded-sm transition-all duration-200 text-xs"
+          disabled={isSaving}
         >
-          변경사항 저장
+          {isSaving ? "저장 중..." : "변경사항 저장"}
         </Button>
       </div>
 

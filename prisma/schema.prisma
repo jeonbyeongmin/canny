@@ -22,9 +22,18 @@ model User {
   image         String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+  
+  // GPT 설정 필드
+  openaiApiKey  String?
+  gptModel      String?   @default("gpt-4")
+  gptTemperature Float?   @default(0.7)
+  gptMaxTokens  Int?      @default(2000)
+  gptSystemPrompt String?
+  gptConfigured Boolean   @default(false)
 
   accounts Account[]
   sessions Session[]
+  newsletters Newsletter[]  // 사용자의 뉴스레터 관계 추가
 
   @@map("users")
 }
@@ -76,4 +85,17 @@ model PasswordReset {
   createdAt DateTime @default(now())
 
   @@map("password_resets")
+}
+
+model Newsletter {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  topics    String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("newsletters")
 }
